@@ -1,0 +1,37 @@
+# These will be loaded on every pages.
+global-styling:
+  version: 1.0.14
+  css:
+    component:
+      css/bootstrap-icons.css: {}
+      css/slick.css: {}
+      css/slick-theme.css: {}
+    theme:
+      css/style.css: {}
+  js:
+    js/slick.js: {}
+    js/kart.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+
+# Book
+book:
+  version: 1.0.14
+  css:
+    component:
+      css/book.css: {}
+
+# maintenance page
+maintenance:
+  version: 1.0.14
+  css:
+    theme:
+      css/maintenance.css: {}
+
+# Theme settings
+theme-settings:
+  version: 1.0.14
+  css:
+    theme:
+      css/theme-settings.css: {}

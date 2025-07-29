@@ -1,0 +1,36 @@
+name: kart
+type: theme
+base theme: stable9
+description: '<p>Kart is a light weight modern Drupal 9, 10, 11 theme by <a href="https://dev5.dev/" target="_blank">Dev5.dev</a> It is fully compatible with Drupal Commerce module.</p><p><a href="https://kart.dev5.dev/" target="_blank">Theme Demo</a> | <a href="https://dev5.dev/theme/drupal/kart" target="_blank">Theme Homepage</a> | <a href="https://dev5.dev/doc/kart" target="_blank">User Guide</a></p>'
+package: Dev5
+core_version_requirement: ^9 || ^10 || ^11
+# version: 1.0.14
+# Libraries
+libraries:
+  - kart/global-styling # Library for all global css. These css will be loaded on every pages.
+regions:
+  header_top: 'Header Top'
+  site_branding: 'Site Branding'
+  header: 'Header'
+  search_box: 'Header Search'
+  primary_menu: 'Primary menu'
+  page_header: 'Page Header'
+  hero: 'Hero Header'
+  highlighted: Highlighted
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  content: Content
+  content_top: 'Content Top'
+  content_bottom: 'Content Bottom'
+  content_home: 'Homepage Content'
+  sidebar_first: 'Sidebar Left'
+  sidebar_second: 'Sidebar Right'
+  footer_top: 'Footer Top'
+  footer: 'Footer'
+  footer_bottom: 'Footer Bottom'
+  hidden_blocks: 'Hidden Blocks'
+
+# Information added by Drupal.org packaging script on 2025-03-11
+version: '1.0.14'
+project: 'kart'
+datestamp: 1741706975

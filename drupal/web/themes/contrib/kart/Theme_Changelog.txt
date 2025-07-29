@@ -1,0 +1,116 @@
++===============================+
+Version 1.0.0
+07 Jan, 2024
++===============================+
+# Initial version
+
+
++===============================+
+Version 1.0.1
+08 Jan, 2024
++===============================+
+# Minor changes.
+
+
++===============================+
+Version 1.0.2
+08 Jan, 2024
++===============================+
+# Updated Bootstrap Font Icons to version 1.11.3
+# Fixed display issue of social icons.
+# Removed footer bottom last block region.
+# Other minor changes.
+
+
++===============================+
+Version 1.0.3
+08 Jan, 2024
++===============================+
+# New block region header hero.
+# Other minor changes.
+
+
++===============================+
+Version 1.0.4
+09 Jan, 2024
++===============================+
+# New template file for maintenance mode: maintenance-page.html.twig
+# Fixed comments styling.
+# Other minor changes.
+
++===============================+
+Version 1.0.5
+16 Jan, 2024
++===============================+
+# Styled pager and mini pager.
+# Fixed mobile main menu.
+# Other minor changes.
+
++===============================+
+Version 1.0.6
+26 Jan, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.7
+04 Feb, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.8
+07 Feb, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.9
+10 Feb, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.10
+12 Feb, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.11
+14 Feb, 2024
++===============================+
+# Minor fixes and improvements.
+
+
++===============================+
+Version 1.0.12
+25 Feb, 2024
++===============================+
+# Fixed content-top and content-bottom block regions.
+# other minor fixes and improvements.
+
+
++===============================+
+Version 1.0.13
+02 Dec, 2024
++===============================+
+# Compatible with Drupal 11
+# Fixed minor known bugs.
+# New shortcodes. Check here:
+https://dev5.dev/doc/kart/custom-shortcodes
+
+
++===============================+
+Version 1.0.14
+11 Mar, 2025
++===============================+
+# Fixed system status display issue.
+# Fixed slick carousel issue in Drupal 11.
+# Fixed cart and checkout page display in mobile devices.
+# Other minor improvements.

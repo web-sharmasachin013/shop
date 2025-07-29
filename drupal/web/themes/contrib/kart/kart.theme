@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * Kart theme overrides and preprocess functions.
+ */
+
+use Drupal\file\Entity\File;
+
+/**
+ * Sanitise input urls.
+ */
+function santise_val_url($url) {
+	if ($url != '') {
+		// Sanitise (remove all illegal characters) from url.
+		$url = filter_var($url, FILTER_SANITIZE_URL);
+		// Validate url.
+		if (filter_var($url, FILTER_VALIDATE_URL) == TRUE) {
+			$url = $url;
+		} else {
+			$url = '#';
+		}
+		return $url;
+	}
+}
+
+/**
+ * Html preprocess for kart theme.
+ */
+function kart_preprocess_html(&$variables) {
+	$variables['base_path'] = base_path();
+	// Layout
+	$variables['container_width'] = theme_get_setting('container_width', 'kart');
+	$variables['header_width'] = theme_get_setting('header_width', 'kart');
+	$variables['main_width'] = theme_get_setting('main_width', 'kart');
+	$variables['footer_width'] = theme_get_setting('footer_width', 'kart');
+  $variables['css_extra'] = theme_get_setting('css_extra', 'kart');
+  $variables['css_code'] = theme_get_setting('css_code', 'kart');
+	$variables['highlight_author_comment'] = theme_get_setting('highlight_author_comment', 'kart');
+	$variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
+}
+
+/**
+ * page preprocess
+ */
+function kart_preprocess_page(array &$variables) {
+	$config = \Drupal::config('system.site');
+	$variables['site_name'] = $config->get('name');
+	$variables['site_slogan'] = $config->get('slogan');
+	$variables['all_icons_show'] = theme_get_setting('all_icons_show', 'kart');
+	$variables['facebook_url'] = santise_val_url(theme_get_setting('facebook_url', 'kart'));
+	$variables['twitter_url'] = santise_val_url(theme_get_setting('twitter_url', 'kart'));
+	$variables['instagram_url'] = santise_val_url(theme_get_setting('instagram_url', 'kart'));
+	$variables['linkedin_url'] = santise_val_url(theme_get_setting('linkedin_url', 'kart'));
+	$variables['youtube_url'] = santise_val_url(theme_get_setting('youtube_url', 'kart'));
+	$variables['vimeo_url'] = santise_val_url(theme_get_setting('vimeo_url', 'kart'));
+	$variables['whatsapp_url'] = santise_val_url(theme_get_setting('whatsapp_url', 'kart'));
+	$variables['github_url'] = santise_val_url(theme_get_setting('github_url', 'kart'));
+	$variables['telegram_url'] = santise_val_url(theme_get_setting('telegram_url', 'kart'));
+	$variables['scrolltotop_on'] = theme_get_setting('scrolltotop_on', 'kart');
+	$variables['copyright_text'] = theme_get_setting('copyright_text', 'kart');
+}
+
+/**
+ * Node preprocess.
+ */
+function kart_preprocess_node(array &$variables) {
+	$variables['node_author_pic'] = theme_get_setting('node_author_pic', 'kart');
+	$variables['node_tags'] = theme_get_setting('node_tags', 'kart');
+}
+
+/**
+ * Add current page to breadcrumb.
+ */
+function kart_preprocess_breadcrumb(&$variables) {
+	$request = \Drupal::request();
+	$route_match = \Drupal::routeMatch();
+	$page_title = \Drupal::service('title_resolver')->getTitle($request, $route_match->getRouteObject());
+	if (!empty($page_title)) {
+		$variables['breadcrumb'][] = [
+			'text' => $page_title,
+		];
+		// Add cache context based on url.
+		$variables['#cache']['contexts'][] = 'url';
+	}
+}
+/**
+ * Implements THEME_preprocess_HOOK() for system messages block.
+ */
+use Drupal\Core\Render\Element\StatusMessages;
+
+function kart_preprocess_block__system_messages_block(&$variables) {
+  $variables['content'] = StatusMessages::renderMessages();
+	$variables['#cache']['max-age'] = 0;
+}
