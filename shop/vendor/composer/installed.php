@@ -217,6 +217,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/admin_toolbar' => array(
+            'pretty_version' => '3.6.1',
+            'version' => '3.6.1.0',
+            'reference' => '3.6.1',
+            'type' => 'drupal-module',
+            'install_path' => __DIR__ . '/../../web/modules/contrib/admin_toolbar',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/commerce' => array(
             'pretty_version' => '3.1.0',
             'version' => '3.1.0.0',

@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^2.3",
+        "drupal/admin_toolbar": "^3.6",
         "drupal/commerce": "^3.1",
         "drupal/commerce_cart_api": "^1.9",
         "drupal/core-composer-scaffold": "^11.2",

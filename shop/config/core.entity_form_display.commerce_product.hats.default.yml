@@ -5,6 +5,7 @@ dependencies:
   config:
     - commerce_product.commerce_product_type.hats
     - field.field.commerce_product.hats.body
+    - field.field.commerce_product.hats.field_category
   module:
     - commerce
     - path
@@ -29,6 +30,16 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_category:
+    type: entity_reference_autocomplete
+    weight: 91
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   path:
     type: path

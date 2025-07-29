@@ -5,6 +5,7 @@ dependencies:
   config:
     - commerce_product.commerce_product_type.hats
     - field.field.commerce_product.hats.body
+    - field.field.commerce_product.hats.field_category
   module:
     - commerce_product
     - text
@@ -19,6 +20,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 11
+    region: content
+  field_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
     region: content
   title:
     type: string
