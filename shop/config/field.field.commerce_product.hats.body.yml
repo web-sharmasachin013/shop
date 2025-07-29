@@ -1,0 +1,24 @@
+uuid: bb414e30-aea9-4534-8fdb-43bd9279ea7f
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.hats
+    - field.storage.commerce_product.body
+  module:
+    - text
+id: commerce_product.hats.body
+field_name: body
+entity_type: commerce_product
+bundle: hats
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: null
+settings:
+  display_summary: false
+  required_summary: false
+  allowed_formats: {  }
+field_type: text_with_summary

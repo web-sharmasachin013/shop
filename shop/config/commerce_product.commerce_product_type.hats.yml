@@ -1,0 +1,13 @@
+uuid: 4486f1c8-b54f-491d-a219-29ecd72f32bd
+langcode: en
+status: true
+dependencies: {  }
+id: hats
+label: Hats
+traits: {  }
+locked: false
+description: ''
+variationTypes:
+  - default
+multipleVariations: true
+injectVariationFields: true
