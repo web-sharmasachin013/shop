@@ -12,9 +12,19 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2",
+    "bootstrap": "^5.3.7",
+    "bootstrap-icons": "^1.13.1",
+    "install": "^0.13.0",
+    "lodash": "^4.17.21",
+    "lorem-ipsum": "^2.0.8",
     "prop-types": "^15.8.1",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.7.1",
+    "string-similarity-js": "^2.1.4",
+    "sweetalert2": "^11.22.2"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
