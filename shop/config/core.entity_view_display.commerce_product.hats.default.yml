@@ -6,8 +6,10 @@ dependencies:
     - commerce_product.commerce_product_type.hats
     - field.field.commerce_product.hats.body
     - field.field.commerce_product.hats.field_category
+    - field.field.commerce_product.hats.field_image
   module:
     - commerce_product
+    - image
     - text
 id: commerce_product.hats.default
 targetEntityType: commerce_product
@@ -28,6 +30,17 @@ content:
       link: true
     third_party_settings: {  }
     weight: 12
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 13
     region: content
   title:
     type: string
