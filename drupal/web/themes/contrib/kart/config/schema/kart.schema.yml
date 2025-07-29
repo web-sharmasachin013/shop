@@ -1,5 +1,0 @@
-# Schema for the configuration files of the kart theme.
-
-kart.settings:
-  type: theme_settings
-  label: 'Kart settings'
