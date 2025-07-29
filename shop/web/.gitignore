@@ -11,6 +11,10 @@
 /web/sites/*/settings.local.php
 /shop/web/sites/*/files/
 shop/web/sites/default/files/php/twig/
+# Ignore Drupal cache and temporary files
+/web/sites/default/files/php/
+/sites/default/files/php/
+
 
 # Ignore config sync if stored in a local folder
 /config/*
