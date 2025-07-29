@@ -1,0 +1,20 @@
+uuid: 328be3f3-daa3-4dc0-a558-cc2e16769e71
+langcode: en
+status: true
+dependencies:
+  theme:
+    - kart
+_core:
+  default_config_hash: 8ZF0x9jM4poipRW4RLq3_YTmJdJSC_cNgS6KY4ETmv8
+id: kart_page_title
+theme: kart
+region: page_header
+weight: -11
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

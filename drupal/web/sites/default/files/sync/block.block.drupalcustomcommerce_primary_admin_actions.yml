@@ -1,0 +1,20 @@
+uuid: cb799e5c-cac2-46fd-805f-796338a390b1
+langcode: en
+status: false
+dependencies:
+  theme:
+    - drupalcustomcommerce
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: drupalcustomcommerce_primary_admin_actions
+theme: drupalcustomcommerce
+region: header
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

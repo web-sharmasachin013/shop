@@ -1,0 +1,20 @@
+uuid: 401f226c-27d6-4278-9c04-1756f114aa58
+langcode: en
+status: false
+dependencies:
+  theme:
+    - drupalcustomcommerce
+_core:
+  default_config_hash: 6aOgWsNTXjqrDm98TXSAjP6qd2nCijD1xw45MrnbK-Y
+id: drupalcustomcommerce_page_title
+theme: drupalcustomcommerce
+region: header
+weight: -5
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility: {  }

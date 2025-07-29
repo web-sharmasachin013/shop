@@ -1,0 +1,23 @@
+uuid: 89a8ebfb-ce67-415a-b76c-b1f1eb1800a5
+langcode: en
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - drupalcustomcommerce
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: drupalcustomcommerce_search_form_wide
+theme: drupalcustomcommerce
+region: header
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

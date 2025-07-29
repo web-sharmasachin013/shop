@@ -5,7 +5,7 @@ description: A flexible theme with a responsive, mobile-first layout.
 package: Custom
 core_version_requirement: ^10 || ^11
 libraries:
-  - drupalcustomcommerce/global
+  - drupalcustomcommerce/react_app  
 regions:
   header: 'Header'
   primary_menu: 'Primary menu'

@@ -1,0 +1,22 @@
+uuid: a522c33f-3de5-4d7c-b804-cf7549cea901
+langcode: en
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - kart
+_core:
+  default_config_hash: n8E6mVfIorSDGn8ezlEyuheiYCe3fRhsHO1YEHbUkUk
+id: kart_help
+theme: kart
+region: highlighted
+weight: -14
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Help
+  label_display: '0'
+  provider: help
+visibility: {  }
