@@ -124,6 +124,127 @@
             "install-path": "../chi-teck/drupal-code-generator"
         },
         {
+            "name": "commerceguys/addressing",
+            "version": "v2.2.4",
+            "version_normalized": "2.2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/commerceguys/addressing.git",
+                "reference": "ea826dbe5b3fe76960073a2167d5cf996c811cda"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/commerceguys/addressing/zipball/ea826dbe5b3fe76960073a2167d5cf996c811cda",
+                "reference": "ea826dbe5b3fe76960073a2167d5cf996c811cda",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/collections": "^1.6 || ^2.0",
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "ext-json": "*",
+                "mikey179/vfsstream": "^1.6.11",
+                "phpunit/phpunit": "^9.6",
+                "squizlabs/php_codesniffer": "^3.7",
+                "symfony/validator": "^5.4 || ^6.3 || ^7.0"
+            },
+            "suggest": {
+                "symfony/validator": "to validate addresses"
+            },
+            "time": "2025-01-13T16:03:24+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "CommerceGuys\\Addressing\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bojan Zivanovic"
+                },
+                {
+                    "name": "Damien Tournoud"
+                }
+            ],
+            "description": "Addressing library powered by CLDR and Google's address data.",
+            "keywords": [
+                "address",
+                "internationalization",
+                "localization",
+                "postal"
+            ],
+            "support": {
+                "issues": "https://github.com/commerceguys/addressing/issues",
+                "source": "https://github.com/commerceguys/addressing/tree/v2.2.4"
+            },
+            "install-path": "../commerceguys/addressing"
+        },
+        {
+            "name": "commerceguys/intl",
+            "version": "v2.0.7",
+            "version_normalized": "2.0.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/commerceguys/intl.git",
+                "reference": "2cf8f74987095aedff45249ce6fc7b0427beefee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/commerceguys/intl/zipball/2cf8f74987095aedff45249ce6fc7b0427beefee",
+                "reference": "2cf8f74987095aedff45249ce6fc7b0427beefee",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.*",
+                "phpunit/phpunit": "^10"
+            },
+            "time": "2025-04-11T08:13:51+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "CommerceGuys\\Intl\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bojan Zivanovic"
+                },
+                {
+                    "name": "Jonathan Sacksick"
+                }
+            ],
+            "description": "Internationalization library powered by CLDR data.",
+            "support": {
+                "issues": "https://github.com/commerceguys/intl/issues",
+                "source": "https://github.com/commerceguys/intl/tree/v2.0.7"
+            },
+            "install-path": "../commerceguys/intl"
+        },
+        {
             "name": "composer/installers",
             "version": "v2.3.0",
             "version_normalized": "2.3.0.0",
@@ -999,6 +1120,95 @@
             "install-path": "../doctrine/annotations"
         },
         {
+            "name": "doctrine/collections",
+            "version": "2.3.0",
+            "version_normalized": "2.3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/collections.git",
+                "reference": "2eb07e5953eed811ce1b309a7478a3b236f2273d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/collections/zipball/2eb07e5953eed811ce1b309a7478a3b236f2273d",
+                "reference": "2eb07e5953eed811ce1b309a7478a3b236f2273d",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/deprecations": "^1",
+                "php": "^8.1",
+                "symfony/polyfill-php84": "^1.30"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^12",
+                "ext-json": "*",
+                "phpstan/phpstan": "^1.8",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^10.5"
+            },
+            "time": "2025-03-22T10:17:19+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Common\\Collections\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Guilherme Blanco",
+                    "email": "guilhermeblanco@gmail.com"
+                },
+                {
+                    "name": "Roman Borschel",
+                    "email": "roman@code-factory.org"
+                },
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de"
+                },
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com"
+                },
+                {
+                    "name": "Johannes Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "PHP Doctrine Collections library that adds additional functionality on top of PHP arrays.",
+            "homepage": "https://www.doctrine-project.org/projects/collections.html",
+            "keywords": [
+                "array",
+                "collections",
+                "iterators",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/doctrine/collections/issues",
+                "source": "https://github.com/doctrine/collections/tree/2.3.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fcollections",
+                    "type": "tidelift"
+                }
+            ],
+            "install-path": "../doctrine/collections"
+        },
+        {
             "name": "doctrine/common",
             "version": "3.5.0",
             "version_normalized": "3.5.0.0",
@@ -1415,6 +1625,159 @@
                 }
             ],
             "install-path": "../doctrine/persistence"
+        },
+        {
+            "name": "drupal/address",
+            "version": "2.0.4",
+            "version_normalized": "2.0.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/address.git",
+                "reference": "2.0.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/address-2.0.4.zip",
+                "reference": "2.0.4",
+                "shasum": "5a86f7abc028f3d9833784dbf0791a6e4463da8e"
+            },
+            "require": {
+                "commerceguys/addressing": "^2.1.1",
+                "drupal/core": "^9.5 || ^10 || ^11",
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "drupal/diff": "^1",
+                "drupal/feeds": "^3",
+                "drupal/token": "^1"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.4",
+                    "datestamp": "1746462054",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "bojanz",
+                    "homepage": "https://www.drupal.org/user/86106"
+                },
+                {
+                    "name": "centarro",
+                    "homepage": "https://www.drupal.org/user/3661446"
+                },
+                {
+                    "name": "dww",
+                    "homepage": "https://www.drupal.org/user/46549"
+                },
+                {
+                    "name": "jsacksick",
+                    "homepage": "https://www.drupal.org/user/972218"
+                },
+                {
+                    "name": "rszrama",
+                    "homepage": "https://www.drupal.org/user/49344"
+                }
+            ],
+            "description": "Provides functionality for storing, validating and displaying international postal addresses.",
+            "homepage": "http://drupal.org/project/address",
+            "support": {
+                "source": "https://git.drupalcode.org/project/address"
+            },
+            "install-path": "../../web/modules/contrib/address"
+        },
+        {
+            "name": "drupal/commerce",
+            "version": "3.1.0",
+            "version_normalized": "3.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/commerce.git",
+                "reference": "3.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/commerce-3.1.0.zip",
+                "reference": "3.1.0",
+                "shasum": "7c112d32957669f523261560df911f06a4f26fb3"
+            },
+            "require": {
+                "commerceguys/intl": "^2.0.6",
+                "drupal/address": "^2.0",
+                "drupal/core": "^10.3 || ^11",
+                "drupal/entity": "^1.0",
+                "drupal/entity_reference_revisions": "~1.0",
+                "drupal/inline_entity_form": "^1.0@RC || ^3.0@RC",
+                "drupal/profile": "^1.2",
+                "drupal/state_machine": "^1.5",
+                "drupal/token": "^1.7",
+                "ext-bcmath": "*",
+                "php": "^8.1"
+            },
+            "conflict": {
+                "drupal/commerce_shipping": "<2.1",
+                "drupal/physical": "<1.3"
+            },
+            "require-dev": {
+                "drupal/commerce_cart": "*",
+                "drupal/commerce_number_pattern": "*",
+                "drupal/commerce_order": "*",
+                "drupal/commerce_payment": "*",
+                "drupal/commerce_price": "*",
+                "drupal/commerce_store": "*",
+                "drupal/entity_print": "^2.2",
+                "drupal/entity_reference_revisions": "*",
+                "drupal/mailsystem": "^4.3",
+                "drupal/physical": "^1.3",
+                "drupal/profile": "*",
+                "drupal/state_machine": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.1.0",
+                    "datestamp": "1751630881",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "centarro",
+                    "homepage": "https://www.drupal.org/user/3661446"
+                },
+                {
+                    "name": "jsacksick",
+                    "homepage": "https://www.drupal.org/user/972218"
+                },
+                {
+                    "name": "rszrama",
+                    "homepage": "https://www.drupal.org/user/49344"
+                }
+            ],
+            "description": "Drupal Commerce is a flexible eCommerce solution.",
+            "homepage": "https://drupal.org/project/commerce",
+            "support": {
+                "source": "https://git.drupalcode.org/project/commerce"
+            },
+            "install-path": "../../web/modules/contrib/commerce"
         },
         {
             "name": "drupal/core",
@@ -1866,6 +2229,537 @@
                 "slack": "https://drupal.slack.com/archives/C012WAW1MH6"
             },
             "install-path": "../../web/modules/contrib/devel"
+        },
+        {
+            "name": "drupal/entity",
+            "version": "1.6.0",
+            "version_normalized": "1.6.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entity.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "dfb214fd45bd6ad79604d23a39a96b3d4c38f8e1"
+            },
+            "require": {
+                "drupal/core": "^10.1 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1740006812",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "bojanz",
+                    "homepage": "https://www.drupal.org/user/86106"
+                },
+                {
+                    "name": "dawehner",
+                    "homepage": "https://www.drupal.org/user/99340"
+                },
+                {
+                    "name": "dixon_",
+                    "homepage": "https://www.drupal.org/user/239911"
+                },
+                {
+                    "name": "fago",
+                    "homepage": "https://www.drupal.org/user/16747"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                },
+                {
+                    "name": "tr",
+                    "homepage": "https://www.drupal.org/user/202830"
+                }
+            ],
+            "description": "Provides expanded entity APIs, which will be moved to Drupal core one day.",
+            "homepage": "https://www.drupal.org/project/entity",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entity",
+                "issues": "https://www.drupal.org/project/issues/entity"
+            },
+            "install-path": "../../web/modules/contrib/entity"
+        },
+        {
+            "name": "drupal/entity_reference_revisions",
+            "version": "1.12.0",
+            "version_normalized": "1.12.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/entity_reference_revisions.git",
+                "reference": "8.x-1.12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity_reference_revisions-8.x-1.12.zip",
+                "reference": "8.x-1.12",
+                "shasum": "2a2ff8617c7ce01b56df1caaf0a563da04948e26"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10 || ^11"
+            },
+            "require-dev": {
+                "drupal/diff": "^1 || ^2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.12",
+                    "datestamp": "1722804497",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": "^9 || ^10 || ^11"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "Frans",
+                    "homepage": "https://www.drupal.org/user/514222"
+                },
+                {
+                    "name": "jeroen.b",
+                    "homepage": "https://www.drupal.org/user/1853532"
+                },
+                {
+                    "name": "miro_dietiker",
+                    "homepage": "https://www.drupal.org/user/227761"
+                }
+            ],
+            "description": "Entity Reference Revisions",
+            "homepage": "https://www.drupal.org/project/entity_reference_revisions",
+            "support": {
+                "source": "https://git.drupalcode.org/project/entity_reference_revisions"
+            },
+            "install-path": "../../web/modules/contrib/entity_reference_revisions"
+        },
+        {
+            "name": "drupal/inline_entity_form",
+            "version": "3.0.0-rc21",
+            "version_normalized": "3.0.0.0-RC21",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/inline_entity_form.git",
+                "reference": "3.0.0-rc21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-3.0.0-rc21.zip",
+                "reference": "3.0.0-rc21",
+                "shasum": "bbfb99be0ee35ad197556b2aa02f6e181e34ff1f"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10 || ^11",
+                "drupal/rat": "^1.0.0@stable",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "drupal/entity_reference_revisions": "^1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "3.0.0-rc21",
+                    "datestamp": "1746459780",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "RC releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "bojanz",
+                    "homepage": "https://www.drupal.org/user/86106"
+                },
+                {
+                    "name": "centarro",
+                    "homepage": "https://www.drupal.org/user/3661446"
+                },
+                {
+                    "name": "dawehner",
+                    "homepage": "https://www.drupal.org/user/99340"
+                },
+                {
+                    "name": "dww",
+                    "homepage": "https://www.drupal.org/user/46549"
+                },
+                {
+                    "name": "geek-merlin",
+                    "homepage": "https://www.drupal.org/user/229048"
+                },
+                {
+                    "name": "joachim",
+                    "homepage": "https://www.drupal.org/user/107701"
+                },
+                {
+                    "name": "jsacksick",
+                    "homepage": "https://www.drupal.org/user/972218"
+                },
+                {
+                    "name": "oknate",
+                    "homepage": "https://www.drupal.org/user/471638"
+                },
+                {
+                    "name": "ram4nd",
+                    "homepage": "https://www.drupal.org/user/601534"
+                },
+                {
+                    "name": "rszrama",
+                    "homepage": "https://www.drupal.org/user/49344"
+                },
+                {
+                    "name": "slashrsm",
+                    "homepage": "https://www.drupal.org/user/744628"
+                },
+                {
+                    "name": "webflo",
+                    "homepage": "https://www.drupal.org/user/254778"
+                }
+            ],
+            "description": "Provides a widget for inline management (creation, modification, removal) of referenced entities.",
+            "homepage": "https://www.drupal.org/project/inline_entity_form",
+            "support": {
+                "source": "https://git.drupalcode.org/project/inline_entity_form"
+            },
+            "install-path": "../../web/modules/contrib/inline_entity_form"
+        },
+        {
+            "name": "drupal/profile",
+            "version": "1.12.0",
+            "version_normalized": "1.12.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/profile.git",
+                "reference": "8.x-1.12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/profile-8.x-1.12.zip",
+                "reference": "8.x-1.12",
+                "shasum": "9fd145bb88da900edc34727dd30ec0a230ceb875"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10 || ^11",
+                "drupal/entity": "^1.0",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "drupal/search_api": "~1.30",
+                "drupal/token": "^1.7"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.12",
+                    "datestamp": "1742292282",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "bojanz",
+                    "homepage": "https://www.drupal.org/user/86106"
+                },
+                {
+                    "name": "daggerhart",
+                    "homepage": "https://www.drupal.org/user/167806"
+                },
+                {
+                    "name": "fago",
+                    "homepage": "https://www.drupal.org/user/16747"
+                },
+                {
+                    "name": "jsacksick",
+                    "homepage": "https://www.drupal.org/user/972218"
+                },
+                {
+                    "name": "mglaman",
+                    "homepage": "https://www.drupal.org/user/2416470"
+                },
+                {
+                    "name": "pcambra",
+                    "homepage": "https://www.drupal.org/user/122101"
+                }
+            ],
+            "description": "Provides configurable user profiles.",
+            "homepage": "https://drupal.org/project/profile",
+            "support": {
+                "source": "https://git.drupalcode.org/project/profile"
+            },
+            "install-path": "../../web/modules/contrib/profile"
+        },
+        {
+            "name": "drupal/rat",
+            "version": "1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/rat.git",
+                "reference": "28202b02262a39ac8dbbfd43696b67c0c8c46b71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://git.drupalcode.org/api/v4/projects/project%2Frat/repository/archive.zip?sha=28202b02262a39ac8dbbfd43696b67c0c8c46b71",
+                "reference": "28202b02262a39ac8dbbfd43696b67c0c8c46b71",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "drupal/core": "^9.4",
+                "drupal/core-dev": "^9.4"
+            },
+            "time": "2023-07-19T22:22:22+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Drupal\\rat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "gpl-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Merlin",
+                    "email": "merlin@geeks4change.net"
+                }
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/rat/-/tree/1.0.0"
+            },
+            "install-path": "../drupal/rat"
+        },
+        {
+            "name": "drupal/state_machine",
+            "version": "1.13.0",
+            "version_normalized": "1.13.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/state_machine.git",
+                "reference": "8.x-1.13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/state_machine-8.x-1.13.zip",
+                "reference": "8.x-1.13",
+                "shasum": "7b676068295b412e049d1915daf52225f1044ace"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10.1 || ^11",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "drupal/diff": "^1 || ^2"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.13",
+                    "datestamp": "1746459629",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "arithmetric",
+                    "homepage": "https://www.drupal.org/user/162305"
+                },
+                {
+                    "name": "bojanz",
+                    "homepage": "https://www.drupal.org/user/86106"
+                },
+                {
+                    "name": "Brandonian",
+                    "homepage": "https://www.drupal.org/user/77766"
+                },
+                {
+                    "name": "das-peter",
+                    "homepage": "https://www.drupal.org/user/762870"
+                },
+                {
+                    "name": "e2thex",
+                    "homepage": "https://www.drupal.org/user/189123"
+                },
+                {
+                    "name": "Elijah Lynn",
+                    "homepage": "https://www.drupal.org/user/353190"
+                },
+                {
+                    "name": "ericduran",
+                    "homepage": "https://www.drupal.org/user/244460"
+                },
+                {
+                    "name": "fmitchell",
+                    "homepage": "https://www.drupal.org/user/213574"
+                },
+                {
+                    "name": "indytechcook",
+                    "homepage": "https://www.drupal.org/user/245817"
+                },
+                {
+                    "name": "jsacksick",
+                    "homepage": "https://www.drupal.org/user/972218"
+                },
+                {
+                    "name": "robeano",
+                    "homepage": "https://www.drupal.org/user/67660"
+                },
+                {
+                    "name": "stevector",
+                    "homepage": "https://www.drupal.org/user/179805"
+                },
+                {
+                    "name": "timcosgrove",
+                    "homepage": "https://www.drupal.org/user/118452"
+                },
+                {
+                    "name": "zroger",
+                    "homepage": "https://www.drupal.org/user/67977"
+                }
+            ],
+            "description": "Provides code-driven workflow functionality.",
+            "homepage": "http://drupal.org/project/state_machine",
+            "support": {
+                "source": "https://git.drupalcode.org/project/state_machine"
+            },
+            "install-path": "../../web/modules/contrib/state_machine"
+        },
+        {
+            "name": "drupal/token",
+            "version": "1.15.0",
+            "version_normalized": "1.15.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/token.git",
+                "reference": "8.x-1.15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/token-8.x-1.15.zip",
+                "reference": "8.x-1.15",
+                "shasum": "5916fbccc86458a5f51e71f832ac70ff4c84ebdf"
+            },
+            "require": {
+                "drupal/core": "^9.2 || ^10 || ^11"
+            },
+            "require-dev": {
+                "drupal/book": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "8.x-1.15",
+                    "datestamp": "1722206211",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                },
+                "drush": {
+                    "services": {
+                        "drush.services.yml": ">=9"
+                    }
+                }
+            },
+            "installation-source": "dist",
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "berdir",
+                    "homepage": "https://www.drupal.org/user/214652"
+                },
+                {
+                    "name": "dave reid",
+                    "homepage": "https://www.drupal.org/user/53892"
+                },
+                {
+                    "name": "eaton",
+                    "homepage": "https://www.drupal.org/user/16496"
+                },
+                {
+                    "name": "fago",
+                    "homepage": "https://www.drupal.org/user/16747"
+                },
+                {
+                    "name": "greggles",
+                    "homepage": "https://www.drupal.org/user/36762"
+                },
+                {
+                    "name": "mikeryan",
+                    "homepage": "https://www.drupal.org/user/4420"
+                }
+            ],
+            "description": "Provides a user interface for the Token API, some missing core tokens.",
+            "homepage": "https://www.drupal.org/project/token",
+            "support": {
+                "source": "https://git.drupalcode.org/project/token"
+            },
+            "install-path": "../../web/modules/contrib/token"
         },
         {
             "name": "drush/drush",
@@ -2755,17 +3649,17 @@
         },
         {
             "name": "mck89/peast",
-            "version": "v1.17.0",
-            "version_normalized": "1.17.0.0",
+            "version": "v1.17.2",
+            "version_normalized": "1.17.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mck89/peast.git",
-                "reference": "3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5"
+                "reference": "465810689c477fbba17f4f949b75e4d0bdab13ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5",
-                "reference": "3a752d39bd7d8dc1e19bcf424f3d5ac1a1ca6ad5",
+                "url": "https://api.github.com/repos/mck89/peast/zipball/465810689c477fbba17f4f949b75e4d0bdab13ea",
+                "reference": "465810689c477fbba17f4f949b75e4d0bdab13ea",
                 "shasum": ""
             },
             "require": {
@@ -2775,11 +3669,11 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0"
             },
-            "time": "2025-03-07T19:44:14+00:00",
+            "time": "2025-07-01T09:30:45+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.17.0-dev"
+                    "dev-master": "1.17.2-dev"
                 }
             },
             "installation-source": "dist",
@@ -2801,7 +3695,7 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.17.0"
+                "source": "https://github.com/mck89/peast/tree/v1.17.2"
             },
             "install-path": "../mck89/peast"
         },
@@ -4007,17 +4901,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "66c1440edf6f339fd82ed6c7caa76cb006211b44"
+                "reference": "9e27aecde8f506ba0fd1d9989620c04a87697101"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/66c1440edf6f339fd82ed6c7caa76cb006211b44",
-                "reference": "66c1440edf6f339fd82ed6c7caa76cb006211b44",
+                "url": "https://api.github.com/repos/symfony/console/zipball/9e27aecde8f506ba0fd1d9989620c04a87697101",
+                "reference": "9e27aecde8f506ba0fd1d9989620c04a87697101",
                 "shasum": ""
             },
             "require": {
@@ -4050,7 +4944,7 @@
                 "symfony/stopwatch": "^6.4|^7.0",
                 "symfony/var-dumper": "^6.4|^7.0"
             },
-            "time": "2025-05-24T10:34:04+00:00",
+            "time": "2025-06-27T19:55:54+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4084,7 +4978,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v7.3.0"
+                "source": "https://github.com/symfony/console/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -4104,17 +4998,17 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "f64a8f3fa7d4ad5e85de1b128a0e03faed02b732"
+                "reference": "8656c4848b48784c4bb8c4ae50d2b43f832cead8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/f64a8f3fa7d4ad5e85de1b128a0e03faed02b732",
-                "reference": "f64a8f3fa7d4ad5e85de1b128a0e03faed02b732",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/8656c4848b48784c4bb8c4ae50d2b43f832cead8",
+                "reference": "8656c4848b48784c4bb8c4ae50d2b43f832cead8",
                 "shasum": ""
             },
             "require": {
@@ -4139,7 +5033,7 @@
                 "symfony/expression-language": "^6.4|^7.0",
                 "symfony/yaml": "^6.4|^7.0"
             },
-            "time": "2025-05-19T13:28:56+00:00",
+            "time": "2025-06-24T04:04:43+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4167,7 +5061,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v7.3.0"
+                "source": "https://github.com/symfony/dependency-injection/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -4257,17 +5151,17 @@
         },
         {
             "name": "symfony/error-handler",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "cf68d225bc43629de4ff54778029aee6dc191b83"
+                "reference": "35b55b166f6752d6aaf21aa042fc5ed280fce235"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/cf68d225bc43629de4ff54778029aee6dc191b83",
-                "reference": "cf68d225bc43629de4ff54778029aee6dc191b83",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/35b55b166f6752d6aaf21aa042fc5ed280fce235",
+                "reference": "35b55b166f6752d6aaf21aa042fc5ed280fce235",
                 "shasum": ""
             },
             "require": {
@@ -4286,7 +5180,7 @@
                 "symfony/serializer": "^6.4|^7.0",
                 "symfony/webpack-encore-bundle": "^1.0|^2.0"
             },
-            "time": "2025-05-29T07:19:49+00:00",
+            "time": "2025-06-13T07:48:40+00:00",
             "bin": [
                 "Resources/bin/patch-type-declarations"
             ],
@@ -4317,7 +5211,7 @@
             "description": "Provides tools to manage errors and ease debugging PHP code",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/error-handler/tree/v7.3.0"
+                "source": "https://github.com/symfony/error-handler/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -4635,17 +5529,17 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "4236baf01609667d53b20371486228231eb135fd"
+                "reference": "23dd60256610c86a3414575b70c596e5deff6ed9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/4236baf01609667d53b20371486228231eb135fd",
-                "reference": "4236baf01609667d53b20371486228231eb135fd",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/23dd60256610c86a3414575b70c596e5deff6ed9",
+                "reference": "23dd60256610c86a3414575b70c596e5deff6ed9",
                 "shasum": ""
             },
             "require": {
@@ -4669,7 +5563,7 @@
                 "symfony/mime": "^6.4|^7.0",
                 "symfony/rate-limiter": "^6.4|^7.0"
             },
-            "time": "2025-05-12T14:48:23+00:00",
+            "time": "2025-06-23T15:07:14+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4697,7 +5591,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v7.3.0"
+                "source": "https://github.com/symfony/http-foundation/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -4717,17 +5611,17 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "ac7b8e163e8c83dce3abcc055a502d4486051a9f"
+                "reference": "1644879a66e4aa29c36fe33dfa6c54b450ce1831"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/ac7b8e163e8c83dce3abcc055a502d4486051a9f",
-                "reference": "ac7b8e163e8c83dce3abcc055a502d4486051a9f",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/1644879a66e4aa29c36fe33dfa6c54b450ce1831",
+                "reference": "1644879a66e4aa29c36fe33dfa6c54b450ce1831",
                 "shasum": ""
             },
             "require": {
@@ -4786,7 +5680,7 @@
                 "symfony/var-exporter": "^6.4|^7.0",
                 "twig/twig": "^3.12"
             },
-            "time": "2025-05-29T07:47:32+00:00",
+            "time": "2025-06-28T08:24:55+00:00",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -4814,7 +5708,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v7.3.0"
+                "source": "https://github.com/symfony/http-kernel/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -4834,17 +5728,17 @@
         },
         {
             "name": "symfony/mailer",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/mailer.git",
-                "reference": "0f375bbbde96ae8c78e4aa3e63aabd486e33364c"
+                "reference": "b5db5105b290bdbea5ab27b89c69effcf1cb3368"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/mailer/zipball/0f375bbbde96ae8c78e4aa3e63aabd486e33364c",
-                "reference": "0f375bbbde96ae8c78e4aa3e63aabd486e33364c",
+                "url": "https://api.github.com/repos/symfony/mailer/zipball/b5db5105b290bdbea5ab27b89c69effcf1cb3368",
+                "reference": "b5db5105b290bdbea5ab27b89c69effcf1cb3368",
                 "shasum": ""
             },
             "require": {
@@ -4869,7 +5763,7 @@
                 "symfony/messenger": "^6.4|^7.0",
                 "symfony/twig-bridge": "^6.4|^7.0"
             },
-            "time": "2025-04-04T09:51:09+00:00",
+            "time": "2025-06-27T19:55:54+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -4897,7 +5791,7 @@
             "description": "Helps sending emails",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/mailer/tree/v7.3.0"
+                "source": "https://github.com/symfony/mailer/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -5975,17 +6869,17 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
-                "reference": "2d86f81b1c506d7e1578789f93280dab4b8411bb"
+                "reference": "feaf837cedbbc8287986602223175d3fd639922d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer/zipball/2d86f81b1c506d7e1578789f93280dab4b8411bb",
-                "reference": "2d86f81b1c506d7e1578789f93280dab4b8411bb",
+                "url": "https://api.github.com/repos/symfony/serializer/zipball/feaf837cedbbc8287986602223175d3fd639922d",
+                "reference": "feaf837cedbbc8287986602223175d3fd639922d",
                 "shasum": ""
             },
             "require": {
@@ -6028,7 +6922,7 @@
                 "symfony/var-exporter": "^6.4|^7.0",
                 "symfony/yaml": "^6.4|^7.0"
             },
-            "time": "2025-05-12T14:48:23+00:00",
+            "time": "2025-06-27T19:55:54+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -6056,7 +6950,7 @@
             "description": "Handles serializing and deserializing data structures, including object graphs, into array structures or other formats like XML and JSON.",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/serializer/tree/v7.3.0"
+                "source": "https://github.com/symfony/serializer/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -6333,17 +7227,17 @@
         },
         {
             "name": "symfony/validator",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "dabb03cddf50761c0aff4fbf5a3b3fffb3e5e38b"
+                "reference": "e2f2497c869fc57446f735fbf00cff4de32ae8c3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/dabb03cddf50761c0aff4fbf5a3b3fffb3e5e38b",
-                "reference": "dabb03cddf50761c0aff4fbf5a3b3fffb3e5e38b",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/e2f2497c869fc57446f735fbf00cff4de32ae8c3",
+                "reference": "e2f2497c869fc57446f735fbf00cff4de32ae8c3",
                 "shasum": ""
             },
             "require": {
@@ -6385,7 +7279,7 @@
                 "symfony/type-info": "^7.1",
                 "symfony/yaml": "^6.4|^7.0"
             },
-            "time": "2025-05-29T07:19:49+00:00",
+            "time": "2025-06-26T13:22:23+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -6414,7 +7308,7 @@
             "description": "Provides tools to validate values",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/validator/tree/v7.3.0"
+                "source": "https://github.com/symfony/validator/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -6434,17 +7328,17 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "548f6760c54197b1084e1e5c71f6d9d523f2f78e"
+                "reference": "6e209fbe5f5a7b6043baba46fe5735a4b85d0d42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/548f6760c54197b1084e1e5c71f6d9d523f2f78e",
-                "reference": "548f6760c54197b1084e1e5c71f6d9d523f2f78e",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/6e209fbe5f5a7b6043baba46fe5735a4b85d0d42",
+                "reference": "6e209fbe5f5a7b6043baba46fe5735a4b85d0d42",
                 "shasum": ""
             },
             "require": {
@@ -6463,7 +7357,7 @@
                 "symfony/uid": "^6.4|^7.0",
                 "twig/twig": "^3.12"
             },
-            "time": "2025-04-27T18:39:23+00:00",
+            "time": "2025-06-27T19:55:54+00:00",
             "bin": [
                 "Resources/bin/var-dump-server"
             ],
@@ -6501,7 +7395,7 @@
                 "dump"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-dumper/tree/v7.3.0"
+                "source": "https://github.com/symfony/var-dumper/tree/v7.3.1"
             },
             "funding": [
                 {
@@ -6601,17 +7495,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v7.3.0",
-            "version_normalized": "7.3.0.0",
+            "version": "v7.3.1",
+            "version_normalized": "7.3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "cea40a48279d58dc3efee8112634cb90141156c2"
+                "reference": "0c3555045a46ab3cd4cc5a69d161225195230edb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/cea40a48279d58dc3efee8112634cb90141156c2",
-                "reference": "cea40a48279d58dc3efee8112634cb90141156c2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/0c3555045a46ab3cd4cc5a69d161225195230edb",
+                "reference": "0c3555045a46ab3cd4cc5a69d161225195230edb",
                 "shasum": ""
             },
             "require": {
@@ -6625,7 +7519,7 @@
             "require-dev": {
                 "symfony/console": "^6.4|^7.0"
             },
-            "time": "2025-04-04T10:10:33+00:00",
+            "time": "2025-06-03T06:57:57+00:00",
             "bin": [
                 "Resources/bin/yaml-lint"
             ],
@@ -6656,7 +7550,7 @@
             "description": "Loads and dumps YAML files",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/yaml/tree/v7.3.0"
+                "source": "https://github.com/symfony/yaml/tree/v7.3.1"
             },
             "funding": [
                 {
