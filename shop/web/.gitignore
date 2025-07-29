@@ -9,6 +9,7 @@
 /web/sites/*/files/cache/*
 /web/sites/*/services.yml
 /web/sites/*/settings.local.php
+/shop/web/sites/*/files/
 
 # Ignore config sync if stored in a local folder
 /config/*
