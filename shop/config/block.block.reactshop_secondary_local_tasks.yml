@@ -1,0 +1,22 @@
+uuid: b89957ce-07de-418b-b231-b6ee217dd5d8
+langcode: en
+status: true
+dependencies:
+  theme:
+    - reactshop
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: reactshop_secondary_local_tasks
+theme: reactshop
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

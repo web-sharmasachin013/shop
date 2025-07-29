@@ -1,0 +1,27 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "js/src/index.jsx",
+  "scripts": {
+    "build": "NODE_ENV=production webpack --mode=production",
+    "build:dev": "webpack",
+    "start": "webpack --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "prop-types": "^15.8.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@babel/preset-react": "^7.27.1",
+    "babel-loader": "^10.0.0",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1"
+  }
+}

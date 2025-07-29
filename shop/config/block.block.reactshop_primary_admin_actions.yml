@@ -1,0 +1,20 @@
+uuid: 2c81eb92-7a4c-4508-825c-3523eabb2229
+langcode: en
+status: true
+dependencies:
+  theme:
+    - reactshop
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: reactshop_primary_admin_actions
+theme: reactshop
+region: header
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

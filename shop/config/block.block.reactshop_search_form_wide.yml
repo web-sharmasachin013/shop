@@ -1,0 +1,23 @@
+uuid: 66cb89fd-28f8-4b0e-a281-7ed2c38f3408
+langcode: en
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - reactshop
+_core:
+  default_config_hash: pbbed0hdqGDF-_QWVVTWRAwgDIotFuAvWH5mWUZu0fA
+id: reactshop_search_form_wide
+theme: reactshop
+region: secondary_menu
+weight: -5
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: 'Search form (wide)'
+  label_display: '0'
+  provider: search
+  page_id: null
+visibility: {  }

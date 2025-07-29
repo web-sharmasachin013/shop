@@ -1,0 +1,22 @@
+uuid: a82a6c3b-83e1-4d2c-8d6c-53ee457177f1
+langcode: en
+status: true
+dependencies:
+  theme:
+    - reactshop
+_core:
+  default_config_hash: nGE3EoPQQaQCuqTUtZgw0-KIzmrqdKDzdNQf2JyPUt4
+id: reactshop_primary_local_tasks
+theme: reactshop
+region: header
+weight: -4
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }
