@@ -1,0 +1,11 @@
+name: 'Commerce Cart: ReactJS'
+description: 'Provides cart block and form replacements using ReactJS and the Cart API'
+type: module
+package: Testing
+dependencies:
+  - commerce:commerce_cart
+
+# Information added by Drupal.org packaging script on 2025-03-12
+version: '8.x-1.9'
+project: 'commerce_cart_api'
+datestamp: 1741769544
