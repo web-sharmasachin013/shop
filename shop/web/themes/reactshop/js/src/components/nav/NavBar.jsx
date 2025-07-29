@@ -23,7 +23,7 @@ function NavBar() {
     nav("login");
   };
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
       <div className="container-fluid px-md-5">
         <span
           id="name"

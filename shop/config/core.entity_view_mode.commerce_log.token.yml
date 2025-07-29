@@ -1,0 +1,11 @@
+uuid: 86a2c402-c5a0-4254-b929-08eebc7bf9a4
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_log
+id: commerce_log.token
+label: Token
+description: null
+targetEntityType: commerce_log
+cache: true
