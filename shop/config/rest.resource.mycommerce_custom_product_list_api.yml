@@ -1,0 +1,21 @@
+uuid: 2def8476-28be-4d4a-afa6-deaa0a86c522
+langcode: en
+status: true
+dependencies:
+  module:
+    - mycommerce
+    - serialization
+    - user
+id: mycommerce_custom_product_list_api
+plugin_id: mycommerce_custom_product_list_api
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+    - PATCH
+  formats:
+    - json
+  authentication:
+    - cookie
