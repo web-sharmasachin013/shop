@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 
 function NavBar() {
   const user = useSelector((state) => state.auth.user);
-  console.log(user);
+
 
   const { pathname } = useLocation();
 

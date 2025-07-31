@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk  } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../data";
 import { uniq, sortBy } from "lodash";
 import { stringSimilarity as getScore } from "string-similarity-js";
@@ -17,20 +17,18 @@ const initialState = {
 };
 
 // Replace with your real API endpoint
-const PRODUCTS_API_URL = 'https://verbose-giggle-jwv59jqw69435pv9-80.app.github.dev/api/products';
+const PRODUCTS_API_URL =
+  "https://verbose-giggle-jwv59jqw69435pv9-80.app.github.dev/api/mycommerce/products";
 
 export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
+  "products/fetchProducts",
   async () => {
     const response = await fetch(PRODUCTS_API_URL);
-   
-
-    
     if (!response.ok) {
-      throw new Error('Failed to fetch products');
+      throw new Error("Failed to fetch products");
     }
-     const data = await response.json();  // ⬅️ this is necessary!
-    return  data;
+    const data = await response.json(); // ⬅️ this is necessary!
+    return data;
   }
 );
 
@@ -73,15 +71,16 @@ export const productSlice = createSlice({
       });
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchProducts.pending, state => {
+      .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        console.log(action.payload);
+        state.productsFromSearch = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;

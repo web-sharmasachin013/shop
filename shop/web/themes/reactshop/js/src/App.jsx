@@ -20,9 +20,6 @@ function App() {
   useEffect(() => {
     dispatch(setCartNumbers());
     dispatch(fetchProducts());
-
-    console.log("test");
-    console.log(products);
     
   }, [cartItems,products]);
   return (

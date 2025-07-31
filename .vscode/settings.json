@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "diffEditor.codeLens": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "code-runner.languageIdToFileExtensionMap": {
+        "bat": ".bat",
+        "powershell": ".ps1",
+        "typescript": ".ts"
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true
+    },
+    "[css]": {
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "editor.insertSpaces": true,
+        "newline_between_rules": false
+    }
+}
