@@ -52,11 +52,6 @@ export const productSlice = createSlice({
     },
     setSelectCategory: (state, action) => {
       let { payload: selectedCategory } = action;
-      console.log("selectedCategory");
-
-      // console.log(selectedCategory);
-      // console.log(state.products[0]);
-
       state.searchTerm = "";
       state.selectedCategory = selectedCategory;
       if (state.selectedCategory === DEFAULT_CATEGORY) {
@@ -84,12 +79,13 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload;
-        console.log("Drupal Data");
-        console.log(action.payload);
-        console.log("Local Data");
-        console.log(data);
-
-        console.log(state.products);
+        if (state.selectedCategory === DEFAULT_CATEGORY) {
+          state.productsFromSearch = state.products;
+        } else {
+          state.productsFromSearch = state.products.filter((p) => {
+            return p.category === state.selectedCategory;
+          });
+        }
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
