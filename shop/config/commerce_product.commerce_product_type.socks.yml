@@ -1,0 +1,13 @@
+uuid: 798e5e18-3513-4f0d-b001-97fa8564266b
+langcode: en
+status: true
+dependencies: {  }
+id: socks
+label: Socks
+traits: {  }
+locked: false
+description: ''
+variationTypes:
+  - socks
+multipleVariations: true
+injectVariationFields: true

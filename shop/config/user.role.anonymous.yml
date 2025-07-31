@@ -4,12 +4,14 @@ status: true
 dependencies:
   config:
     - filter.format.restricted_html
+    - rest.resource.mycommerce_custom_product_list_api
   module:
     - comment
     - commerce_checkout
     - commerce_product
     - contact
     - filter
+    - rest
     - search
     - system
 _core:
@@ -23,6 +25,7 @@ permissions:
   - 'access comments'
   - 'access content'
   - 'access site-wide contact form'
+  - 'restful get mycommerce_custom_product_list_api'
   - 'search content'
   - 'use text format restricted_html'
   - 'view commerce_product'

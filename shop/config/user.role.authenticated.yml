@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - rest.resource.mycommerce_custom_product_list_api
   module:
     - comment
     - commerce_checkout
@@ -13,6 +14,7 @@ dependencies:
     - contact
     - file
     - filter
+    - rest
     - search
     - shortcut
     - system
@@ -31,6 +33,7 @@ permissions:
   - 'delete own files'
   - 'manage own commerce_payment_method'
   - 'post comments'
+  - 'restful get mycommerce_custom_product_list_api'
   - 'search content'
   - 'skip comment approval'
   - 'use text format basic_html'

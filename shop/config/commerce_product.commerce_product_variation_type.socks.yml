@@ -1,0 +1,10 @@
+uuid: f3930bd0-c72e-457c-a369-c2c59a02c649
+langcode: en
+status: true
+dependencies: {  }
+id: socks
+label: Socks
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: null
