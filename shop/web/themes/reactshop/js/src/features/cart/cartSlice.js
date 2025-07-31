@@ -1,9 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../data";
 const initialState = {
   cartItems: [],
   cartNumbers: { subtotal: 0, shipping: 0, tax: 0, total: 0 },
 };
+
+// Fetch cart data thunk
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch("/cart?_format=json", {
+        credentials: "include", // important for authenticated session
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch cart");
+
+      const data = await response.json();
+      console.log("Cart DAta");
+      console.log(data);
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const cartSlice = createSlice({
   name: "products",
@@ -45,6 +67,21 @@ export const cartSlice = createSlice({
       total = subtotal + shipping + tax;
       state.cartNumbers = { subtotal, shipping, tax, total };
     },
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCart.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchCart.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.cartItems = action.payload;
+      })
+      .addCase(fetchCart.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
   },
 });
 export const { addToCart, removeFromCart, setQuantity, setCartNumbers } =

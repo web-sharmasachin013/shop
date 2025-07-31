@@ -27,10 +27,6 @@ export const fetchProducts = createAsyncThunk(
       throw new Error("Failed to fetch products");
     }
     const data = await response.json(); // ⬅️ this is necessary!
-    //categories = uniq(data.map((product) => product.category)).sort();
-    // console.log("test");
-
-    // console.log(categories);
 
     return data;
   }
@@ -87,8 +83,6 @@ export const productSlice = createSlice({
           state.products.map((product) => product.category)
         ).sort();
         state.categories = [DEFAULT_CATEGORY, ...categories];
-        console.log(state.categories);
-        console.log("test");
 
         if (state.selectedCategory === DEFAULT_CATEGORY) {
           state.productsFromSearch = state.products;

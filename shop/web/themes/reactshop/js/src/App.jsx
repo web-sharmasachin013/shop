@@ -11,15 +11,16 @@ import { useEffect } from "react";
 import { setCartNumbers } from "./features/cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "./features/product/productSlice";
+import { fetchCart } from "./features/cart/cartSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
-  const { products } = useSelector((state) => state.products);
 
   useEffect(() => {
     dispatch(setCartNumbers());
     dispatch(fetchProducts());
+    dispatch(fetchCart());
   }, [cartItems, dispatch]);
   return (
     <div className="wrapper bg-dark text-white">
