@@ -7,12 +7,12 @@ const categories = uniq(data.map((product) => product.category)).sort();
 const DEFAULT_CATEGORY = "All";
 
 const initialState = {
-  products: data,
-  productsFromSearch: data,
+  products: [],
+  productsFromSearch: [],
   categories: [DEFAULT_CATEGORY, ...categories],
   selectedCategory: DEFAULT_CATEGORY,
   searchTerm: "",
-  single: data[0],
+  single: [],
   singleSimlarProducts: [],
 };
 
@@ -52,6 +52,10 @@ export const productSlice = createSlice({
     },
     setSelectCategory: (state, action) => {
       let { payload: selectedCategory } = action;
+      console.log("selectedCategory");
+
+      // console.log(selectedCategory);
+      // console.log(state.products[0]);
 
       state.searchTerm = "";
       state.selectedCategory = selectedCategory;
@@ -79,8 +83,13 @@ export const productSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
+        state.products = action.payload;
+        console.log("Drupal Data");
         console.log(action.payload);
-        state.productsFromSearch = action.payload;
+        console.log("Local Data");
+        console.log(data);
+
+        console.log(state.products);
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;

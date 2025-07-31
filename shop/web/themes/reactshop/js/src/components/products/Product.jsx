@@ -6,10 +6,8 @@ import { useNavigate } from "react-router-dom";
 function Product(props) {
   const nav = useNavigate();
   const { product } = props;
-  console.log(product);
-  
-   const imgPath = "/sites/default/files/images/" + product.id + ".jpg";
- // const imgPath = "../../images/" = product.id + ".jpg";
+  const imgPath = "/sites/default/files/images/" + product.id + ".jpg";
+
   const handleClick = () => {
     nav(`/single/${product.id}`);
   };

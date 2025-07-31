@@ -113,13 +113,20 @@ final class CustomProductListApiResource extends ResourceBase
 
                     // Replace localhost:port with your desired domain
                 }
-            }
+            }// Get category term name
+            $categoryName = '';
+      if ($product->hasField('field_category') && !$product->get('field_category')->isEmpty()) {
+        $term = $product->get('field_category')->entity;
+       // dump($term->label());
+  
+      }
             $data[] = [
                 "id" => $product->id(),
-                "title" => $product->label(),
+                "name" => $product->label(),
                 "price" => $this->getProductPrice($product),
                 "description" => $product->get("body")->value,
                 "img" => $image_url,
+                 'category' => $term->label(),
             ];
         }
 
