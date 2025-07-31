@@ -1,0 +1,10 @@
+uuid: 200b1ab8-71eb-46d5-834a-a4c561278af3
+langcode: en
+status: true
+dependencies: {  }
+id: fashion_beauty
+label: 'Fashion & Beauty'
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: null

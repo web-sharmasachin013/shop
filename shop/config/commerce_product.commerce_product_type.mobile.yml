@@ -1,0 +1,13 @@
+uuid: 3cf76919-d4dc-4a32-8339-a5fda118fc6a
+langcode: en
+status: true
+dependencies: {  }
+id: mobile
+label: Mobile
+traits: {  }
+locked: false
+description: ''
+variationTypes:
+  - mobile
+multipleVariations: true
+injectVariationFields: true

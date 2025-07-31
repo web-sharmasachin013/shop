@@ -1,0 +1,64 @@
+uuid: 5412b685-d64b-4f60-bf2c-f445ff8f4bb1
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_type.fashion_beauty
+    - field.field.commerce_product.fashion_beauty.body
+    - field.field.commerce_product.fashion_beauty.field_category
+    - field.field.commerce_product.fashion_beauty.field_image
+  module:
+    - commerce_product
+    - image
+    - text
+id: commerce_product.fashion_beauty.default
+targetEntityType: commerce_product
+bundle: fashion_beauty
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_category:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_image:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: -5
+    region: content
+  variations:
+    type: commerce_add_to_cart
+    label: above
+    settings:
+      combine: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+hidden:
+  created: true
+  stores: true
+  uid: true

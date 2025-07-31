@@ -1,0 +1,10 @@
+uuid: 72d0aff2-1e76-4826-91d4-e8cd8511d9b7
+langcode: en
+status: true
+dependencies: {  }
+id: mobile
+label: Mobile
+traits: {  }
+locked: false
+orderItemType: default
+generateTitle: null

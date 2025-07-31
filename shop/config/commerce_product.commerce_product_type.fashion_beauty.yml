@@ -1,0 +1,13 @@
+uuid: 8bf7e421-7d62-489b-a9d1-8a5f8154def7
+langcode: en
+status: true
+dependencies: {  }
+id: fashion_beauty
+label: 'Fashion & Beauty'
+traits: {  }
+locked: false
+description: ''
+variationTypes:
+  - fashion_beauty
+multipleVariations: true
+injectVariationFields: true
