@@ -3,13 +3,12 @@ import data from "../../data";
 import { uniq, sortBy } from "lodash";
 import { stringSimilarity as getScore } from "string-similarity-js";
 
-const categories = uniq(data.map((product) => product.category)).sort();
 const DEFAULT_CATEGORY = "All";
 
 const initialState = {
   products: [],
   productsFromSearch: [],
-  categories: [DEFAULT_CATEGORY, ...categories],
+  categories: [],
   selectedCategory: DEFAULT_CATEGORY,
   searchTerm: "",
   single: [],
@@ -28,6 +27,11 @@ export const fetchProducts = createAsyncThunk(
       throw new Error("Failed to fetch products");
     }
     const data = await response.json(); // ⬅️ this is necessary!
+    //categories = uniq(data.map((product) => product.category)).sort();
+    // console.log("test");
+
+    // console.log(categories);
+
     return data;
   }
 );
@@ -79,6 +83,13 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.loading = false;
         state.products = action.payload;
+        const categories = uniq(
+          state.products.map((product) => product.category)
+        ).sort();
+        state.categories = [DEFAULT_CATEGORY, ...categories];
+        console.log(state.categories);
+        console.log("test");
+
         if (state.selectedCategory === DEFAULT_CATEGORY) {
           state.productsFromSearch = state.products;
         } else {
