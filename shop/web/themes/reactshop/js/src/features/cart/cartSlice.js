@@ -32,7 +32,6 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
       let { payload: item } = action;
       state.cartItems.push({ ...item, quantity: 1 });
-      console.log(state.cartItems);
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
@@ -66,7 +65,7 @@ export const cartSlice = createSlice({
       state.cartNumbers = { subtotal, shipping, tax, total };
     },
     viewCartItems: (state, action) => {
-      console.log(JSON.parse(JSON.stringify(state.prevItems))); // Clean output
+      // console.log(JSON.parse(JSON.stringify(state.prevItems))); // Clean output
     },
   },
 
@@ -77,11 +76,13 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
-        action.payload.forEach((element) => {
-          element.order_items.forEach((val) => {
-            state.prevItems = val;
-          });
-        });
+
+        const simplifiedCart = action.payload[0].order_items.map((item) => ({
+          product_id: item.purchased_entity?.product_id,
+          price: item.purchased_entity.price.number,
+          quantity: item.quantity,
+        }));
+        state.prevItems = simplifiedCart;
         cartSlice.caseReducers.viewCartItems(state, action);
       })
       .addCase(fetchCart.rejected, (state, action) => {

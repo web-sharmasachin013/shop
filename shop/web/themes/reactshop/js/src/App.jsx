@@ -12,10 +12,13 @@ import { setCartNumbers, viewCartItems } from "./features/cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "./features/product/productSlice";
 import { fetchCart } from "./features/cart/cartSlice";
+import { selectEnrichedCartItems } from "./selectors/cartSelectors";
 
 function App() {
   const dispatch = useDispatch();
-  const { cartItems } = useSelector((state) => state.cart);
+  const cartItemsDeatils = useSelector(selectEnrichedCartItems);
+  const { cartItems, prevItems } = useSelector((state) => state.cart);
+  console.log(cartItemsDeatils);
 
   useEffect(() => {
     dispatch(setCartNumbers());
