@@ -9,14 +9,16 @@ const initialState = {
 // Fetch cart data thunk
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async (_, { rejectWithValue }) => { 
+  async (_, { rejectWithValue }) => {
     try {
       const response = await fetch("/cart?_format=json", {
         credentials: "include", // important for authenticated session
       });
 
       if (!response.ok) throw new Error("Failed to fetch cart");
+
       const data = await response.json();
+      console.log("CArt", data);
 
       return data;
     } catch (error) {
@@ -25,15 +27,64 @@ export const fetchCart = createAsyncThunk(
   }
 );
 
+// Add to  cart data thunk
+export const addToCartDrupal = createAsyncThunk(
+  "cart/addToCartDrupal",
+  async ({ product }, { dispatch, rejectWithValue }) => {
+    try {
+      let { id } = product;
+
+      const csrfToken = await getCsrfToken();
+      console.log(csrfToken);
+
+      const res = await fetch("/cart/add?_format=json", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify([
+          {
+            purchased_entity_type: "commerce_product_variation",
+            purchased_entity_id: id,
+            quantity: 1,
+          },
+        ]),
+      });
+      if (!res.ok) throw new Error("Failed to add to cart");
+      dispatch(addToCart(product));
+      return await res.json();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+// src/utils/getCsrfToken.js
+export async function getCsrfToken() {
+  const res = await fetch("/session/token", {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch CSRF token");
+  }
+
+  return res.text();
+}
+
 export const cartSlice = createSlice({
   name: "products",
   initialState,
   reducers: {
     addToCart: (state, action) => {
       let { payload: item } = action;
+      console.log(item);
+
       // console.log(JSON.parse(JSON.stringify(item))); // Clean output
       state.cartItems.push({ ...item, quantity: 1 });
-      console.log(JSON.parse(JSON.stringify(item))); // Clean output
+      //  console.log(JSON.parse(JSON.stringify(item))); // Clean output
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
@@ -69,7 +120,6 @@ export const cartSlice = createSlice({
     viewCartItems: (state, action) => {
       let { payload: items } = action;
       items.forEach((item) => {
-        console.log(item);
         state.cartItems.push({ ...item.product, quantity: item.quantity });
       });
     },
@@ -91,6 +141,17 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(addToCartDrupal.pending, (state) => {
+        state.addStatus = "loading";
+      })
+      .addCase(addToCartDrupal.fulfilled, (state) => {
+        state.addStatus = "succeeded";
+        state.error = null;
+      })
+      .addCase(addToCartDrupal.rejected, (state, action) => {
+        state.addStatus = "failed";
         state.error = action.payload;
       });
   },

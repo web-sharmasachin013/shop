@@ -1,14 +1,21 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
+import { addToCartDrupal } from "../../features/cart/cartSlice";
 import { useNavigate } from "react-router-dom";
+
 function ProductButton(props) {
   const dispatch = useDispatch();
   const nav = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const { cartItems } = useSelector((state) => state.cart);
   const handleAddClick = () => {
-    dispatch(addToCart(props.product));
+    // dispatch(addToCart(props.product));
+    // console.log("add");
+    const { product } = props;
+    console.log(product);
+
+    dispatch(addToCartDrupal({ product }));
   };
   const handleRemoveClick = () => {
     dispatch(removeFromCart(props.product));
