@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../data";
 const initialState = {
   cartItems: [],
+  prevItems: [],
   cartNumbers: { subtotal: 0, shipping: 0, tax: 0, total: 0 },
 };
 
@@ -15,10 +16,7 @@ export const fetchCart = createAsyncThunk(
       });
 
       if (!response.ok) throw new Error("Failed to fetch cart");
-
       const data = await response.json();
-      console.log("Cart DAta");
-      console.log(data);
 
       return data;
     } catch (error) {
@@ -34,6 +32,7 @@ export const cartSlice = createSlice({
     addToCart: (state, action) => {
       let { payload: item } = action;
       state.cartItems.push({ ...item, quantity: 1 });
+      console.log(state.cartItems);
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
@@ -44,7 +43,6 @@ export const cartSlice = createSlice({
     },
     setQuantity: (state, action) => {
       let { item, qty } = action.payload;
-      console.log("setQty called", item, qty);
       state.cartItems = state.cartItems.map((cartItem) => {
         return cartItem.id === item.id
           ? { ...cartItem, quantity: cartItem.quantity + qty }
@@ -67,6 +65,9 @@ export const cartSlice = createSlice({
       total = subtotal + shipping + tax;
       state.cartNumbers = { subtotal, shipping, tax, total };
     },
+    viewCartItems: (state, action) => {
+      console.log(JSON.parse(JSON.stringify(state.prevItems))); // Clean output
+    },
   },
 
   extraReducers: (builder) => {
@@ -76,7 +77,12 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.cartItems = action.payload;
+        action.payload.forEach((element) => {
+          element.order_items.forEach((val) => {
+            state.prevItems = val;
+          });
+        });
+        cartSlice.caseReducers.viewCartItems(state, action);
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";
@@ -84,6 +90,11 @@ export const cartSlice = createSlice({
       });
   },
 });
-export const { addToCart, removeFromCart, setQuantity, setCartNumbers } =
-  cartSlice.actions;
+export const {
+  addToCart,
+  removeFromCart,
+  setQuantity,
+  setCartNumbers,
+  viewCartItems,
+} = cartSlice.actions;
 export default cartSlice.reducer;

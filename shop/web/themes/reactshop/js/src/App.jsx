@@ -8,7 +8,7 @@ import Single from "./components/pages/Single";
 import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/nav/Login";
 import { useEffect } from "react";
-import { setCartNumbers } from "./features/cart/cartSlice";
+import { setCartNumbers, viewCartItems } from "./features/cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "./features/product/productSlice";
 import { fetchCart } from "./features/cart/cartSlice";
