@@ -8,11 +8,7 @@ function ProductButton(props) {
   const user = useSelector((state) => state.auth.user);
   const { cartItems } = useSelector((state) => state.cart);
   const handleAddClick = () => {
-    // if (user) {
     dispatch(addToCart(props.product));
-    // } else {
-    //   nav("/login");
-    // }
   };
   const handleRemoveClick = () => {
     dispatch(removeFromCart(props.product));

@@ -5,9 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./components/pages/Home";
 import Cart from "./components/pages/Cart";
 import Single from "./components/pages/Single";
-import PrivateRoute from "./components/PrivateRoute";
 import Login from "./components/nav/Login";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { setCartNumbers, viewCartItems } from "./features/cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "./features/product/productSlice";
@@ -16,15 +15,26 @@ import { selectEnrichedCartItems } from "./selectors/cartSelectors";
 
 function App() {
   const dispatch = useDispatch();
-  const cartItemsDeatils = useSelector(selectEnrichedCartItems);
-  const { cartItems, prevItems } = useSelector((state) => state.cart);
-  console.log(cartItemsDeatils);
+  const cartItemsProducts = useSelector(selectEnrichedCartItems);
+  const hasRun = useRef(false); // ✅ flag to prevent infinite loop
+  const { cartItems } = useSelector((state) => state.cart);
 
   useEffect(() => {
     dispatch(setCartNumbers());
+  }, [cartItems]);
+
+  useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCart());
-  }, [cartItems, dispatch]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!hasRun.current && cartItemsProducts.length > 0) {
+      hasRun.current = true; // set flag BEFORE calling the function
+      dispatch(viewCartItems(cartItemsProducts)); // ✅ safe to call state setters here
+    }
+  }, [cartItemsProducts]);
+
   return (
     <div className="wrapper bg-dark text-white">
       <NavBar />
