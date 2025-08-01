@@ -13,9 +13,15 @@ export const selectEnrichedCartItems = createSelector(
       const product = products.products.find(
         (p) => String(p.id) === String(item.product_id)
       );
+
+      const quantity = parseFloat(item.quantity || 0);
+      const price = parseFloat(product?.price || 0);
+      const subtotal = quantity * price;
+
       return {
         ...item,
         product: product || null,
+        subtotal,
       };
     });
   }
