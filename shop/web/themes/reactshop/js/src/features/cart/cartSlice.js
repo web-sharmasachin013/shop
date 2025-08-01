@@ -9,7 +9,7 @@ const initialState = {
 // Fetch cart data thunk
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
-  async (_, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => { 
     try {
       const response = await fetch("/cart?_format=json", {
         credentials: "include", // important for authenticated session
