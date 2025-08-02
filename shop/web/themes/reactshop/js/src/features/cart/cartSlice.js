@@ -18,7 +18,7 @@ export const fetchCart = createAsyncThunk(
       if (!response.ok) throw new Error("Failed to fetch cart");
 
       const data = await response.json();
-      console.log("CArt", data);
+      // console.log(data);
 
       return data;
     } catch (error) {
@@ -35,7 +35,7 @@ export const addToCartDrupal = createAsyncThunk(
       let { id } = product;
 
       const csrfToken = await getCsrfToken();
-      console.log(csrfToken);
+      // console.log(csrfToken);
 
       const res = await fetch("/cart/add?_format=json", {
         method: "POST",
@@ -80,7 +80,7 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       let { payload: item } = action;
-      console.log(item);
+      // console.log(item);
 
       // console.log(JSON.parse(JSON.stringify(item))); // Clean output
       state.cartItems.push({ ...item, quantity: 1 });
@@ -88,6 +88,9 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
+      console.log(item);
+      console.log(JSON.parse(JSON.stringify(state.cartItems)));
+
       let index = state.cartItems.findIndex(
         (cartItem) => cartItem.id === item.id
       );
@@ -119,8 +122,16 @@ export const cartSlice = createSlice({
     },
     viewCartItems: (state, action) => {
       let { payload: items } = action;
+      console.log("viewCartItems");
+      console.log(items);
+
       items.forEach((item) => {
-        state.cartItems.push({ ...item.product, quantity: item.quantity });
+        state.cartItems.push({
+          ...item.product,
+          quantity: item.quantity,
+          uuid: item.uuid,
+          order_item: item.order_item,
+        });
       });
     },
   },
@@ -132,10 +143,14 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
+
         const simplifiedCart = action.payload[0].order_items.map((item) => ({
           product_id: item.purchased_entity?.product_id,
+          uuid: item.uuid,
           price: item.purchased_entity.price.number,
           quantity: item.quantity,
+          order_id: item.order_id,
+          order_item_id: item.order_item_id,
         }));
         state.prevItems = simplifiedCart;
       })

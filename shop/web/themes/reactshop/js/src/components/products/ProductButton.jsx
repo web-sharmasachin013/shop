@@ -10,14 +10,23 @@ function ProductButton(props) {
   const user = useSelector((state) => state.auth.user);
   const { cartItems } = useSelector((state) => state.cart);
   const handleAddClick = () => {
-    // dispatch(addToCart(props.product));
-    // console.log("add");
     const { product } = props;
-    console.log(product);
+    const userId = window?.drupalSettings?.user?.uid;
+    if (!userId || userId === 0) {
+      window.location.href = "/user/login"; // Drupal default login path
+      return;
+    }
 
     dispatch(addToCartDrupal({ product }));
   };
+
+  const getUuidByProductId = (productId) => {
+    const cartItem = cartItems.find((item) => item.id === productId);
+    return cartItem ? cartItem.uuid : null;
+  };
   const handleRemoveClick = () => {
+    const uuid = getUuidByProductId(props.product.id);
+
     dispatch(removeFromCart(props.product));
   };
   const isPresentInCart = Boolean(

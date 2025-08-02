@@ -33,7 +33,7 @@ function App() {
       hasRun.current = true; // set flag BEFORE calling the function
       dispatch(viewCartItems(cartItemsProducts)); // ✅ safe to call state setters here
     }
-  }, [cartItemsProducts]);
+  }, [cartItemsProducts, cartItems]);
 
   return (
     <div className="wrapper bg-dark text-white">
