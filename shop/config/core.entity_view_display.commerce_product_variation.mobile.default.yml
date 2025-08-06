@@ -4,13 +4,22 @@ status: true
 dependencies:
   config:
     - commerce_product.commerce_product_variation_type.mobile
+    - field.field.commerce_product_variation.mobile.field_gst
   module:
     - commerce_price
+    - commerce_product_tax
 id: commerce_product_variation.mobile.default
 targetEntityType: commerce_product_variation
 bundle: mobile
 mode: default
 content:
+  field_gst:
+    type: commerce_product_tax_rate_percentage
+    label: inline
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
   list_price:
     type: commerce_price_default
     label: above

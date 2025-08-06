@@ -1,0 +1,23 @@
+uuid: bcb2fff5-1c47-4511-ba22-ac6e2a227945
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.mobile
+    - field.storage.commerce_product_variation.field_gst
+  module:
+    - commerce_product_tax
+id: commerce_product_variation.mobile.field_gst
+field_name: field_gst
+entity_type: commerce_product_variation
+bundle: mobile
+label: GST
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_zones: {  }
+  tax_type: gst
+field_type: commerce_tax_rate

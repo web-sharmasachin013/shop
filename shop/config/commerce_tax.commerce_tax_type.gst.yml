@@ -1,0 +1,38 @@
+uuid: 32cf6fd5-532d-4b6c-aef7-f79d7085e9d9
+langcode: en
+status: true
+dependencies: {  }
+id: gst
+label: GST
+plugin: custom
+configuration:
+  display_inclusive: true
+  display_label: gst
+  round: false
+  rates:
+    -
+      id: ee00dc0c-a7c4-41ed-9484-27e005db2be1
+      label: GST
+      percentage: '0.18'
+    -
+      id: 087e774b-cca8-4f43-bd0e-5199935dc332
+      label: standard
+      percentage: '0.09'
+  territories:
+    -
+      country_code: IN
+      administrative_area: ''
+      locality: null
+      dependent_locality: null
+conditions:
+  -
+    plugin: order_store
+    configuration:
+      stores:
+        - fecb878e-be69-4d80-b805-54de8ac18d16
+  -
+    plugin: order_product_type
+    configuration:
+      product_types:
+        - mobile
+conditionOperator: OR
