@@ -16,7 +16,7 @@ function CartBuyButton() {
         text: "Order placed successfully",
         icon: "success",
       });
-      nav("/");
+      nav("/cart");
       window.location.reload();
     } else if (result.isDenied) {
       await Swal.fire({
