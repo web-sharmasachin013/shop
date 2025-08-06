@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Provides a UI for selecting applicable tax rates on the product variation.
+ */
+
+/**
+ * Implements hook_field_formatter_info_alter().
+ */
+function commerce_product_tax_field_formatter_info_alter(&$info) {
+  $info['string']['field_types'][] = 'commerce_tax_rate';
+}

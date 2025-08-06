@@ -1,0 +1,47 @@
+uuid: 8ab6c8ab-917e-4389-b178-570579fd7916
+langcode: en
+status: true
+dependencies: {  }
+id: india
+label: India
+plugin: custom
+configuration:
+  display_inclusive: false
+  display_label: gst
+  round: false
+  rates:
+    -
+      id: 597f1df5-214d-4616-9554-4003393cd514
+      label: GST
+      percentage: '0.18'
+  territories:
+    -
+      country_code: IN
+      administrative_area: ''
+      locality: null
+      dependent_locality: null
+conditions:
+  -
+    plugin: order_billing_address
+    configuration:
+      zone:
+        territories:
+          -
+            country_code: IN
+            administrative_area: ''
+      operator: in
+  -
+    plugin: order_shipping_address
+    configuration:
+      zone:
+        territories:
+          -
+            country_code: IN
+            administrative_area: ''
+      operator: in
+  -
+    plugin: order_store
+    configuration:
+      stores:
+        - fecb878e-be69-4d80-b805-54de8ac18d16
+conditionOperator: OR

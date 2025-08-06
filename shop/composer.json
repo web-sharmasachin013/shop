@@ -19,6 +19,7 @@
         "drupal/admin_toolbar": "^3.6",
         "drupal/commerce": "^3.1",
         "drupal/commerce_cart_api": "^1.9",
+        "drupal/commerce_product_tax": "^1.2",
         "drupal/core-composer-scaffold": "^11.2",
         "drupal/core-project-message": "^11.2",
         "drupal/core-recipe-unpack": "^11.2",

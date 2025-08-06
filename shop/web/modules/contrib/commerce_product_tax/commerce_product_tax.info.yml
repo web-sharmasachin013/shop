@@ -1,0 +1,12 @@
+name: Commerce Product Tax
+type: module
+description: 'Provides a user interface for selecting applicable tax rates on the product variation.'
+package: Commerce (contrib)
+core_version_requirement: ^8.9 || ^9.3 || ^10 || ^11
+dependencies:
+  - commerce:commerce_tax
+
+# Information added by Drupal.org packaging script on 2024-11-26
+version: '8.x-1.2'
+project: 'commerce_product_tax'
+datestamp: 1732631136
