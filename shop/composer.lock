@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "260f44488f9aa6f9096348279c75668c",
+    "content-hash": "60a79e09af1fb23baa5ef1a58d0c83c0",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2976,6 +2976,50 @@
             "homepage": "https://www.drupal.org/project/inline_entity_form",
             "support": {
                 "source": "https://git.drupalcode.org/project/inline_entity_form"
+            }
+        },
+        {
+            "name": "drupal/kart",
+            "version": "1.0.14",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/kart.git",
+                "reference": "1.0.14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/kart-1.0.14.zip",
+                "reference": "1.0.14",
+                "shasum": "86fd22a65762ecc48069ba762844937d6752d029"
+            },
+            "require": {
+                "drupal/core": "^9 || ^10 || ^11"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "drupal": {
+                    "version": "1.0.14",
+                    "datestamp": "1741706973",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ravis",
+                    "homepage": "https://www.drupal.org/user/79351"
+                }
+            ],
+            "description": "<p>Kart is a light weight modern Drupal 9, 10, 11 theme by <a href=\"https://dev5.dev/\" target=\"_blank\">Dev5.dev</a> It is fully compatible with Drupal Commerce module.</p><p><a href=\"https://kart.dev5.dev/\" target=\"_blank\">Theme Demo</a> | <a href=\"https://dev5.dev/theme/drupal/kart\" target=\"_blank\">Theme Homepage</a> | <a href=\"https://dev5.dev/doc/kart\" target=\"_blank\">User Guide</a></p>",
+            "homepage": "https://www.drupal.org/project/kart",
+            "support": {
+                "source": "https://git.drupalcode.org/project/kart"
             }
         },
         {

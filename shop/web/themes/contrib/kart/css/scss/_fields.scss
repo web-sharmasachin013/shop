@@ -1,0 +1,20 @@
+/* Field Label */
+.field-label-inline {
+  display: flex;
+  gap: 0.5rem;
+}
+.field-label {
+  position: relative;
+  font-family: var(--font-heading);
+  color: var(--bold-color);
+  font-weight: 500;
+}
+.field-label-inline .field-label::after {
+  content: ":";
+}
+/* Field items */
+.field-items {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}

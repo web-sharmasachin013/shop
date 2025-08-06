@@ -1,0 +1,17 @@
+Bootstrap Icons
++----------------------+
+https://icons.getbootstrap.com/
+
+
+slick
++----------------------+
+https://github.com/kenwheeler/slick
+
+
+Google Fonts
++----------------------+
+Heebo by Oded Ezer
+https://fonts.google.com/specimen/Heebo
+
+Inter by Rasmus Andersson
+https://fonts.google.com/specimen/Inter

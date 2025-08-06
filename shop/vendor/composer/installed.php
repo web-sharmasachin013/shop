@@ -550,6 +550,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'drupal/kart' => array(
+            'pretty_version' => '1.0.14',
+            'version' => '1.0.14.0',
+            'reference' => '1.0.14',
+            'type' => 'drupal-theme',
+            'install_path' => __DIR__ . '/../../web/themes/contrib/kart',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'drupal/physical' => array(
             'pretty_version' => '1.5.0',
             'version' => '1.5.0.0',
