@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Defines a form for estimating taxes and shipping rates on the cart form.
+ */
+
+/**
+ * Implements hook_views_data_alter().
+ */
+function commerce_cart_estimate_views_data_alter(array &$data) {
+  $data['commerce_order']['commerce_cart_estimate'] = [
+    'title' => t('Cart estimate form'),
+    'help' => t('Outputs a form for estimating taxes/shipping rates'),
+    'area' => [
+      'id' => 'commerce_cart_estimate',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function commerce_cart_estimate_theme($existing, $type, $theme, $path) {
+  return [
+    'commerce_cart_estimate_summary' => [
+      'variables' => [
+        'order_entity' => NULL,
+        'totals' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for the cart estimate summary template.
+ */
+function template_preprocess_commerce_cart_estimate_summary(&$variables) {
+  /** @var \Drupal\commerce_order\Entity\OrderInterface $order */
+  $order = $variables['order_entity'];
+  // Build the totals, note that we're using a custom template for displaying
+  // the cart estimate in order to allow for customizations over the total
+  // label (e.g "Estimated total" instead of just "Total").
+  /** @var \Drupal\commerce_order\OrderTotalSummaryInterface $total_summary */
+  $total_summary = \Drupal::service('commerce_order.order_total_summary');
+  $variables['totals'] = $total_summary->buildTotals($order);
+}

@@ -5,9 +5,13 @@ dependencies:
   config:
     - commerce_product.commerce_product_variation_type.mobile
     - field.field.commerce_product_variation.mobile.field_gst
+    - field.field.commerce_product_variation.mobile.field_shipping
+    - field.field.commerce_product_variation.mobile.weight
   module:
+    - commerce
     - commerce_price
     - commerce_product_tax
+    - physical
 id: commerce_product_variation.mobile.default
 targetEntityType: commerce_product_variation
 bundle: mobile
@@ -16,6 +20,12 @@ content:
   field_gst:
     type: commerce_tax_rate_default
     weight: 91
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_shipping:
+    type: commerce_plugin_select
+    weight: 92
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -53,6 +63,15 @@ content:
     settings:
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  weight:
+    type: physical_measurement_default
+    weight: 91
+    region: content
+    settings:
+      default_unit: ''
+      allow_unit_change: true
+      available_units: {  }
     third_party_settings: {  }
 hidden:
   created: true

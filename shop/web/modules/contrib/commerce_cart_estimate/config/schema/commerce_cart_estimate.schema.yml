@@ -1,0 +1,22 @@
+views.area.commerce_cart_estimate:
+  type: views_area
+  label: 'Commerce Cart Estimate'
+  mapping:
+    show_clear_button:
+      type: boolean
+      label: 'Show clear button'
+    confirmation_message:
+      type: label
+      label: 'Confirmation message'
+    estimate_button_label:
+      type: label
+      label: 'Estimate button label'
+    container_element:
+      type: string
+      label: 'Container element'
+    container_label:
+      type: label
+      label: 'Container label'
+    container_description:
+      type: label
+      label: 'Container description'

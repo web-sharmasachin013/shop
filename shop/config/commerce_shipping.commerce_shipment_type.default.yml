@@ -1,0 +1,12 @@
+uuid: f8fc27fd-c799-4011-aa31-2e3bc3c56654
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: hTtXtpqIBr-_HZSAKxolH_QAufMqGW9c-o19Za-G7XI
+id: default
+label: Default
+profileType: customer
+traits: {  }
+sendConfirmation: null
+confirmationBcc: null

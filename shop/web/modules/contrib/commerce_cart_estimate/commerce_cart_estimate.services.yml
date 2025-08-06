@@ -1,0 +1,26 @@
+services:
+  commerce_cart_estimate.estimator:
+    class: Drupal\commerce_cart_estimate\Estimator
+    arguments: ['@event_dispatcher', '@commerce_cart_estimate.order_refresh', '@commerce_shipping.order_manager', '@commerce_shipping.shipment_manager', '@address.subdivision_repository']
+
+  logger.channel.commerce_cart_estimate:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: logger.factory:get
+    arguments: ['commerce_cart_estimate']
+
+  commerce_cart_estimate.order_refresh:
+    class: Drupal\commerce_cart_estimate\OrderRefresh
+    arguments: ['@commerce_price.chain_price_resolver']
+    tags:
+      - { name: service_collector, call: addPreprocessor, tag: commerce_order.order_preprocessor }
+      - { name: service_collector, call: addProcessor, tag: commerce_order.order_processor }
+
+  commerce_cart_estimate.order_subscriber:
+    class: Drupal\commerce_cart_estimate\EventSubscriber\OrderSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  commerce_cart_estimate.shipment_subscriber:
+    class: Drupal\commerce_cart_estimate\EventSubscriber\ShipmentSubscriber
+    tags:
+      - { name: event_subscriber }

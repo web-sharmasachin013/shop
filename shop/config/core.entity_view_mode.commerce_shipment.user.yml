@@ -1,0 +1,13 @@
+uuid: ad66c963-38d7-4dde-b041-dd1480ade985
+langcode: en
+status: true
+dependencies:
+  module:
+    - commerce_shipping
+_core:
+  default_config_hash: G40vv9Xuc6Jt1V5H0UcORDW-EUbERkckHwBYkH7mG_Y
+id: commerce_shipment.user
+label: User
+description: null
+targetEntityType: commerce_shipment
+cache: true

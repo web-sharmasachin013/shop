@@ -1,0 +1,21 @@
+uuid: 4f3ebddb-79ad-4f18-b542-a6cd8e083e7a
+langcode: en
+status: true
+dependencies:
+  config:
+    - commerce_product.commerce_product_variation_type.mobile
+    - field.storage.commerce_product_variation.field_shipping
+  module:
+    - commerce
+id: commerce_product_variation.mobile.field_shipping
+field_name: field_shipping
+entity_type: commerce_product_variation
+bundle: mobile
+label: Shipping
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: 'commerce_plugin_item:commerce_shipping_method'

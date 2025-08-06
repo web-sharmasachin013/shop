@@ -5,7 +5,10 @@ dependencies:
   config:
     - commerce_product.commerce_product_variation_type.mobile
     - field.field.commerce_product_variation.mobile.field_gst
+    - field.field.commerce_product_variation.mobile.field_shipping
+    - field.field.commerce_product_variation.mobile.weight
   module:
+    - commerce
     - commerce_price
     - commerce_product_tax
 id: commerce_product_variation.mobile.default
@@ -19,6 +22,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_shipping:
+    type: commerce_plugin_item_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
     region: content
   list_price:
     type: commerce_price_default
@@ -42,3 +52,4 @@ hidden:
   product_id: true
   sku: true
   title: true
+  weight: true

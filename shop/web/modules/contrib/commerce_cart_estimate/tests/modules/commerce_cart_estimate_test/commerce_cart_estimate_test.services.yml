@@ -1,0 +1,5 @@
+services:
+  commerce_cart_estimate_test.select_shipping_rate_subscriber:
+    class: Drupal\commerce_cart_estimate_test\EventSubscriber\SelectShippingRateSubscriber
+    tags:
+      - { name: event_subscriber }

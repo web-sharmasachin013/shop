@@ -4,7 +4,8 @@ status: true
 dependencies: {  }
 id: mobile
 label: Mobile
-traits: {  }
+traits:
+  - purchasable_entity_shippable
 locked: false
 orderItemType: default
-generateTitle: null
+generateTitle: false

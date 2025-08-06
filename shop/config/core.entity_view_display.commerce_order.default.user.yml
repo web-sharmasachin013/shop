@@ -5,6 +5,7 @@ dependencies:
   config:
     - commerce_order.commerce_order_type.default
     - core.entity_view_mode.commerce_order.user
+    - field.field.commerce_order.default.shipments
   module:
     - commerce_order
     - commerce_price
@@ -18,98 +19,99 @@ bundle: default
 mode: user
 content:
   balance:
-    label: hidden
     type: commerce_price_default
-    weight: 0
-    region: content
+    label: hidden
     settings:
       strip_trailing_zeroes: false
       currency_display: symbol
     third_party_settings: {  }
+    weight: 0
+    region: content
   billing_profile:
     type: entity_reference_revisions_entity_view
-    weight: 0
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 0
     region: content
   completed:
-    label: inline
     type: timestamp
-    weight: 2
+    label: inline
     settings:
       date_format: short
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
+    weight: 2
     region: content
   coupons:
-    label: above
     type: entity_reference_label
+    label: above
     settings:
       link: true
-    region: content
-    weight: 8
     third_party_settings: {  }
+    weight: 8
+    region: content
   customer_comments:
     type: string
     label: above
     settings:
       link_to_entity: false
-    region: content
-    weight: 7
     third_party_settings: {  }
+    weight: 7
+    region: content
   mail:
-    label: inline
     type: basic_string
-    weight: 1
+    label: inline
     settings: {  }
     third_party_settings: {  }
+    weight: 1
     region: content
   order_items:
     type: commerce_order_item_table
-    weight: 5
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    label: hidden
+    weight: 5
     region: content
   order_number:
     type: string
-    weight: 0
     label: inline
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 0
     region: content
   placed:
-    label: inline
     type: timestamp
-    weight: 3
+    label: inline
     settings:
       date_format: short
       custom_date_format: ''
       timezone: ''
     third_party_settings: {  }
+    weight: 3
     region: content
   state:
     type: list_default
-    weight: 4
     label: inline
     settings: {  }
     third_party_settings: {  }
+    weight: 4
     region: content
   total_price:
     type: commerce_order_total_summary
-    weight: 6
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    label: hidden
+    weight: 6
     region: content
 hidden:
   changed: true
   ip_address: true
+  shipments: true
   store_id: true
   total_paid: true
   uid: true

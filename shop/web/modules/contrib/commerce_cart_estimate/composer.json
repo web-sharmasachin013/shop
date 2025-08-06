@@ -1,0 +1,11 @@
+{
+    "name": "drupal/commerce_cart_estimate",
+    "type": "drupal-module",
+    "description": "Provides a form for estimating taxes and shipping rates on the cart form.",
+    "homepage": "https://drupal.org/project/commerce_cart_estimate",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "drupal/commerce_shipping": "^2.12"
+    },
+    "minimum-stability": "dev"
+}
