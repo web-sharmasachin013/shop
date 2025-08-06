@@ -53,8 +53,48 @@ export const addToCartDrupal = createAsyncThunk(
         ]),
       });
       if (!res.ok) throw new Error("Failed to add to cart");
+
       dispatch(addToCart(product));
       return await res.json();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+// Remove from cart
+export const removeFromCartDrupal = createAsyncThunk(
+  "cart/removeFromCartDrupal",
+  async ({ updatedProduct }, { dispatch, rejectWithValue }) => {
+    // /let { updatedProduct: product } = updatedProduct;
+    // const { product } = updatedProduct;
+    // console.log(product);
+
+    const cartUuid = updatedProduct.orderId;
+    const orderItemUuid = updatedProduct.order_item_id;
+
+    try {
+      if (!cartUuid) throw new Error("No cart UUID provided");
+      const csrf = await getCsrfToken();
+      // console.log(csrf);
+
+      const res = await fetch(`/cart/${cartUuid}/items/${orderItemUuid}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrf,
+        },
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt || "Failed to remove item");
+      }
+      // Refresh cart from server
+      await dispatch(removeFromCart(updatedProduct));
+      console.log(orderItemUuid);
+
+      return { orderItemUuid };
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -88,8 +128,8 @@ export const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
-      console.log(item);
-      console.log(JSON.parse(JSON.stringify(state.cartItems)));
+      // console.log(item);
+      // console.log(JSON.parse(JSON.stringify(state.prevItems)));
 
       let index = state.cartItems.findIndex(
         (cartItem) => cartItem.id === item.id
@@ -122,7 +162,6 @@ export const cartSlice = createSlice({
     },
     viewCartItems: (state, action) => {
       let { payload: items } = action;
-      console.log("viewCartItems");
       console.log(items);
 
       items.forEach((item) => {
@@ -130,7 +169,8 @@ export const cartSlice = createSlice({
           ...item.product,
           quantity: item.quantity,
           uuid: item.uuid,
-          order_item: item.order_item,
+          order_id: item.order_id,
+          order_item_id: item.order_item_id,
         });
       });
     },
@@ -151,8 +191,10 @@ export const cartSlice = createSlice({
           quantity: item.quantity,
           order_id: item.order_id,
           order_item_id: item.order_item_id,
+          order_id: item.order_id,
         }));
         state.prevItems = simplifiedCart;
+        //  console.log(state.prevItems);
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";
@@ -167,6 +209,16 @@ export const cartSlice = createSlice({
       })
       .addCase(addToCartDrupal.rejected, (state, action) => {
         state.addStatus = "failed";
+        state.error = action.payload;
+      })
+      .addCase(removeFromCartDrupal.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(removeFromCartDrupal.fulfilled, (state, action) => {
+        state.status = "succeeded";
+      })
+      .addCase(removeFromCartDrupal.rejected, (state, action) => {
+        state.status = "failed";
         state.error = action.payload;
       });
   },

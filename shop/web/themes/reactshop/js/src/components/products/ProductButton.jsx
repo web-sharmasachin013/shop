@@ -1,7 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
-import { addToCartDrupal } from "../../features/cart/cartSlice";
+import {
+  addToCartDrupal,
+  removeFromCartDrupal,
+} from "../../features/cart/cartSlice";
 import { useNavigate } from "react-router-dom";
 
 function ProductButton(props) {
@@ -20,14 +23,26 @@ function ProductButton(props) {
     dispatch(addToCartDrupal({ product }));
   };
 
-  const getUuidByProductId = (productId) => {
+  const getIdsByProductId = (productId) => {
     const cartItem = cartItems.find((item) => item.id === productId);
-    return cartItem ? cartItem.uuid : null;
+    return cartItem ? cartItem : null;
   };
   const handleRemoveClick = () => {
-    const uuid = getUuidByProductId(props.product.id);
+    const { product } = props;
+    console.log(product);
 
-    dispatch(removeFromCart(props.product));
+    const iDs = getIdsByProductId(props.product.id);
+    console.log(iDs);
+    const updatedProduct = {
+      ...product,
+      orderId: iDs.order_id,
+      order_item_id: iDs.order_item_id,
+    };
+
+    dispatch(
+      // /removeFromCartDrupal({ product }, iDs.order_id, iDs.order_item_id)
+      removeFromCartDrupal({ updatedProduct })
+    );
   };
   const isPresentInCart = Boolean(
     cartItems.find((item) => item.id === props.product.id)
