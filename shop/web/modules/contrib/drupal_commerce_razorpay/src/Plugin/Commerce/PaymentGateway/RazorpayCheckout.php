@@ -2,536 +2,363 @@
 
 namespace Drupal\drupal_commerce_razorpay\Plugin\Commerce\PaymentGateway;
 
-use Drupal\commerce_payment\Plugin\Commerce\PaymentGateway\OffsitePaymentGatewayBase;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\commerce_payment\Exception\PaymentGatewayException;
+
+
+
 use Drupal\Core\Form\FormStateInterface;
-use Razorpay\Api\Api;
-use Drupal\drupal_commerce_razorpay\AutoWebhook;
-use Drupal\commerce_order\Entity\OrderInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Razorpay\Api\Errors\SignatureVerificationError;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\commerce_payment\Attribute\CommercePaymentGateway;
 use Drupal\commerce_payment\Entity\PaymentInterface;
+use Drupal\commerce_payment\Entity\PaymentMethodInterface;
+use Drupal\commerce_payment\Exception\HardDeclineException;
+use Drupal\commerce_payment\Plugin\Commerce\PaymentGateway\OnsitePaymentGatewayBase;
+use Drupal\commerce_payment\Plugin\Commerce\PaymentGateway\SupportsZeroBalanceOrderInterface;
+use Drupal\commerce_payment\PluginForm\PaymentMethodEditForm;
+use Drupal\commerce_payment_example\PluginForm\Onsite\PaymentMethodAddForm; // Optional if you provide add form
 use Drupal\commerce_price\Price;
-use Drupal\commerce_price\Calculator;
-use Drupal\drupal_commerce_razorpay\Plugin\Commerce\PaymentGateway\RazorpayInterface;
+use Razorpay\Api\Api;
+use Razorpay\Api\Errors\Error as RazorpayError;
 
 /**
- * Provides the Razorpay offsite Checkout payment gateway.
- *
- * @CommercePaymentGateway(
- *   id = "razorpay",
- *   label = @Translation("Razorpay"),
- *   display_label = @Translation("Razorpay"),
- *   forms = {
- *     "offsite-payment" = "Drupal\drupal_commerce_razorpay\PluginForm\RazorpayForm",
- *   }
- * )
+ * Provides the Razorpay On-site payment gateway.
  */
-class RazorpayCheckout extends OffsitePaymentGatewayBase implements RazorpayInterface
-{
-    /**
-     * Event constants
-     */
-    const PAYMENT_AUTHORIZED       = 'payment.authorized';
-    const PAYMENT_FAILED           = 'payment.failed';
-    const REFUNDED_CREATED         = 'refund.created';
-    
-     /**
-     * @var Webhook Notify Wait Time
-     */
-    protected const WEBHOOK_NOTIFY_WAIT_TIME = (3 * 60);
+#[CommercePaymentGateway(
+  id: "razorpay",
+  label: new TranslatableMarkup("Razorpay (On-site)"),
+  display_label: new TranslatableMarkup("Razorpay"),
+  forms: [
+    // Provide your own add/edit forms if you support storing payment methods.
+    "add-payment-method" => PaymentMethodAddForm::class,
+    "edit-payment-method" => PaymentMethodEditForm::class,
+  ],
+  payment_method_types: ["credit_card"],
+  requires_billing_information: FALSE,
+)]
+class RazorpayCheckout extends OnsitePaymentGatewayBase implements SupportsZeroBalanceOrderInterface {
 
-    /**
-     * @var HTTP CONFLICT Request
-     */
-    protected const HTTP_CONFLICT_STATUS = 409;
-  
-    /**
-     * {@inheritdoc}
-     */
-    public function defaultConfiguration()
-    {
-        return ['key_id' => '',
-                'key_secret' => '',
-                'payment_action' => [],
-            ] + parent::defaultConfiguration();
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'key_id' => '',
+      'key_secret' => '',
+      // optionally, store webhook secret or other settings.
+    ] + parent::defaultConfiguration();
+  }
+
+  /**
+   * Helper: create Razorpay API client.
+   *
+   * @return \Razorpay\Api\Api
+   */
+  protected function getApiClient() {
+    $key_id = $this->configuration['key_id'] ?? '';
+    $key_secret = $this->configuration['key_secret'] ?? '';
+    return new Api($key_id, $key_secret);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
+    $form = parent::buildConfigurationForm($form, $form_state);
+
+    $form['key_id'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Razorpay Key ID'),
+      '#default_value' => $this->configuration['key_id'],
+      '#required' => TRUE,
+    ];
+
+    $form['key_secret'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Razorpay Key Secret'),
+      '#default_value' => $this->configuration['key_secret'],
+      '#required' => TRUE,
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
+    parent::submitConfigurationForm($form, $form_state);
+    if (!$form_state->getErrors()) {
+      $values = $form_state->getValue($form['#parents']);
+      $this->configuration['key_id'] = $values['key_id'];
+      $this->configuration['key_secret'] = $values['key_secret'];
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Create a Razorpay Order and set the Payment remote id to the Razorpay order id.
+   */
+  public function createPayment(PaymentInterface $payment, $capture = TRUE) {
+    $this->assertPaymentState($payment, ['new']);
+    $payment_method = $payment->getPaymentMethod();
+    // Payment method may be optional if you use on-page Checkout tokens.
+    // $this->assertPaymentMethod($payment_method);
+
+    // Build amount in paise if INR. Razorpay expects amount in the smallest currency unit.
+    $amount = $payment->getAmount();
+    $currency = $amount->getCurrencyCode();
+    $number = $amount->getNumber();
+
+    // Convert decimal string to smallest unit integer.
+    // Example: "100.00" => 10000 paise.
+    $amount_integer = $this->amountToMinorUnits($number, $currency);
+
+    try {
+      $api = $this->getApiClient();
+
+      // Create Razorpay Order.
+      $order_data = [
+        'amount' => $amount_integer,
+        'currency' => $currency,
+        'receipt' => 'order_' . $payment->id(),
+        // 'payment_capture' => $capture ? 1 : 0,
+        // You may attach notes or customer id if available.
+      ];
+      $razorpay_order = $api->order->create($order_data);
+
+      // Save razorpay order id as remote id on the payment entity.
+      $payment->setRemoteId($razorpay_order['id']);
+      // If you prefer to mark authorization vs completed depending on capture:
+      $next_state = $capture ? 'completed' : 'authorization';
+      $payment->setState($next_state);
+
+      // Optionally set additional metadata:
+      $payment->set('payment_gateway_response', json_encode($razorpay_order));
+
+      $payment->save();
+    }
+    catch (RazorpayError $e) {
+      // Map Razorpay errors to Commerce exceptions. Use HardDecline for unrecoverable declines.
+      throw HardDeclineException::createForPayment($payment, $e->getMessage());
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * Capture a Razorpay payment. This expects the Payment->remote_id to be the
+   * *Razorpay payment id* (not the order id). If you used Checkout, client must
+   * send the razorpay_payment_id to Drupal and you should set it on the Payment
+   * remote id prior to capture.
+   */
+  public function capturePayment(PaymentInterface $payment, ?Price $amount = NULL) {
+    $this->assertPaymentState($payment, ['authorization', 'new']);
+    // If not specified, capture the entire amount.
+    $amount = $amount ?: $payment->getAmount();
+    $currency = $amount->getCurrencyCode();
+
+    // The plugin needs a razorpay_payment_id to capture. This often comes from
+    // the client-side checkout (razorpay_payment_id) and should be set on the
+    // payment->remote_id before capture. If you stored only order id earlier,
+    // you'll need to map order->payment id via webhooks or client-provided token.
+    $razorpay_payment_id = $payment->getRemoteId();
+    if (empty($razorpay_payment_id)) {
+      throw new \InvalidArgumentException('Missing Razorpay payment id for capture.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
-    {
-        return new static(
-            $configuration,
-            $plugin_id,
-            $plugin_definition,
-            $container->get('entity_type.manager'),
-            $container->get('plugin.manager.commerce_payment_type'),
-            $container->get('plugin.manager.commerce_payment_method_type'),
-            $container->get('datetime.time'),
-            $container->get('commerce_price.minor_units_converter')
-        );
+    $amount_integer = $this->amountToMinorUnits($amount->getNumber(), $currency);
+
+    try {
+      $api = $this->getApiClient();
+      $payment_obj = $api->payment->fetch($razorpay_payment_id);
+
+      // Perform capture.
+      $capture = $payment_obj->capture(['amount' => $amount_integer, 'currency' => $currency]);
+
+      // Update local payment state and amounts.
+      $payment->setState('completed');
+      $payment->setAmount($amount);
+      $payment->set('payment_gateway_response', json_encode($capture));
+      $payment->save();
+    }
+    catch (RazorpayError $e) {
+      throw HardDeclineException::createForPayment($payment, $e->getMessage());
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function voidPayment(PaymentInterface $payment) {
+    // Razorpay: you can cancel an authorization or refund a captured payment.
+    // If payment is a captured payment, you must refund; if it's an order that
+    // hasn't been paid, you may cancel or ignore.
+    // Implement minimal behavior: if we have a razorpay_payment_id and it's not
+    // captured, we can attempt to cancel via API (Razorpay doesn't have an explicit void).
+    $this->assertPaymentState($payment, ['authorization']);
+
+    $razorpay_payment_id = $payment->getRemoteId();
+    if (empty($razorpay_payment_id)) {
+      throw new \InvalidArgumentException('Missing Razorpay payment id for void.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildConfigurationForm(array $form, FormStateInterface $form_state)
-    {
-        $form = parent::buildConfigurationForm($form, $form_state);
+    try {
+      $api = $this->getApiClient();
+      $payment_obj = $api->payment->fetch($razorpay_payment_id);
 
-        $form['display_label']['#prefix'] = 'First <a href="https://easy.razorpay.com/onboarding?recommended_product=payment_gateway&source=drupal" target="_blank">signup</a> for a Razorpay account or
-            <a href="https://dashboard.razorpay.com/signin?screen=sign_in&source=drupal" target="_blank">login</a> if you have an existing account.</p>';
+      // If payment is captured, we can't void — we refund instead.
+      if (!empty($payment_obj['captured'])) {
+        // Refund the payment immediately.
+        $refund = $payment_obj->refund();
+        $payment->setState('authorization_voided');
+        $payment->set('payment_gateway_response', json_encode($refund));
+      }
+      else {
+        // If not captured, you can do nothing or update metadata.
+        $payment->setState('authorization_voided');
+      }
+      $payment->save();
+    }
+    catch (RazorpayError $e) {
+      throw HardDeclineException::createForPayment($payment, $e->getMessage());
+    }
+  }
 
-        $form['key_id'] = [
-            '#type' => 'textfield',
-            '#title' => $this->t('Key ID'),
-            '#description' => $this->t('The key Id and key secret can be generated from "API Keys" section of Razorpay Dashboard. Use test or live for test or live mode.'),
-            '#default_value' => $this->configuration['key_id'],
-            '#required' => TRUE,
-        ];
+  /**
+   * {@inheritdoc}
+   */
+  public function refundPayment(PaymentInterface $payment, ?Price $amount = NULL) {
+    $this->assertPaymentState($payment, ['completed', 'partially_refunded']);
+    $amount = $amount ?: $payment->getAmount();
+    $this->assertRefundAmount($payment, $amount);
 
-        $form['key_secret'] = [
-            '#type' => 'textfield',
-            '#title' => $this->t('Key Secret'),
-            '#description' => $this->t('The key Id and key secret can be generated from "API Keys" section of Razorpay Dashboard. Use test or live for test or live mode.'),
-            '#default_value' => $this->configuration['key_secret'],
-            '#required' => TRUE,
-        ];
-
-        $form['payment_action'] = [
-            '#type' => 'select',
-            '#title' => $this->t('Payment Action'),
-            '#options' => [
-                'capture' => $this->t('Authorize and Capture'),
-                'authorize' => $this->t('Authorize'),
-            ],
-            '#default_value' => $this->configuration['payment_action'],
-        ];
-
-        return $form;
+    $razorpay_payment_id = $payment->getRemoteId();
+    if (empty($razorpay_payment_id)) {
+      throw new \InvalidArgumentException('Missing Razorpay payment id for refund.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateConfigurationForm(array &$form, FormStateInterface $form_state)
-    {
-        parent::validateConfigurationForm($form, $form_state);
+    $amount_integer = $this->amountToMinorUnits($amount->getNumber(), $amount->getCurrencyCode());
 
-        if ($form_state->getErrors())
-        {
-            return;
-        }
+    try {
+      $api = $this->getApiClient();
+      $payment_obj = $api->payment->fetch($razorpay_payment_id);
 
-        $form_state->setValue('id', 'razorpay');
+      $refund = $payment_obj->refund([
+        'amount' => $amount_integer,
+      ]);
 
-        $values = $form_state->getValue($form['#parents']);
+      // Update refunded amount locally.
+      $old_refunded_amount = $payment->getRefundedAmount();
+      $new_refunded_amount = $old_refunded_amount ? $old_refunded_amount->add($amount) : $amount;
 
-        if (empty($values['key_id']) || empty($values['key_secret']))
-        {
-            return;
-        }
+      if ($new_refunded_amount->lessThan($payment->getAmount())) {
+        $payment->setState('partially_refunded');
+      }
+      else {
+        $payment->setState('refunded');
+      }
 
-        if (substr($values['key_id'], 0, 8) !== 'rzp_' . $values['mode'])
-        {
-            $this->messenger()->addError($this->t('Invalid Key ID or Key Secret for ' . $values['mode'] . ' mode.'));
-            $form_state->setError($form['mode']);
+      $payment->setRefundedAmount($new_refunded_amount);
+      $payment->set('payment_gateway_response', json_encode($refund));
+      $payment->save();
+    }
+    catch (RazorpayError $e) {
+      throw HardDeclineException::createForPayment($payment, $e->getMessage());
+    }
+  }
 
-            return;
-        }
-
-        try
-        {
-            $api = new Api($values['key_id'], $values['key_secret']);
-            $options = [
-                'count' => 1
-            ];
-            $orders = $api->order->all($options);
-        }
-        catch (\Exception $exception)
-        {
-            $this->messenger()->addError($this->t('Invalid Key ID or Key Secret.'));
-            $form_state->setError($form['key_id']);
-            $form_state->setError($form['key_secret']);
-        }
+  /**
+   * {@inheritdoc}
+   *
+   * Create a saved PaymentMethod in your local DB and optionally create a
+   * Razorpay customer and attach a card token. How you obtain the token depends
+   * on your frontend (Checkout) implementation.
+   */
+  public function createPaymentMethod(PaymentMethodInterface $payment_method, array $payment_details) {
+    // $payment_details should include the razorpay token / payment_method_id sent from client.
+    if (empty($payment_details['razorpay_payment_method_id']) && empty($payment_details['razorpay_token'])) {
+      throw new \InvalidArgumentException('Missing Razorpay payment method token/id.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function submitConfigurationForm(array &$form, FormStateInterface $form_state)
-    {
-        parent::submitConfigurationForm($form, $form_state);
-
-        if ($form_state->getErrors())
-        {
-            return;
-        }
-
-        $values = $form_state->getValue($form['#parents']);
-
-        $this->configuration['key_id'] = $values['key_id'];
-        $this->configuration['key_secret'] = $values['key_secret'];
-        $this->configuration['payment_action'] = $values['payment_action'];
-
-        $autoWebhook = new AutoWebhook();
-        $autoWebhook->autoEnableWebhook($values['key_id'], $values['key_secret']);
+    // Example: store remote id and expiry if available.
+    $remote_id = $payment_details['razorpay_payment_method_id'] ?? $payment_details['razorpay_token'] ?? NULL;
+    if ($remote_id) {
+      $payment_method->setRemoteId($remote_id);
     }
 
-    /**
-    * {@inheritdoc}
-    */
-    public function onReturn(OrderInterface $order, Request $request) 
-    {
-        $keyId = $this->configuration['key_id'];
-        $keySecret = $this->configuration['key_secret'];
-        $api = new Api($keyId, $keySecret);
-    
-        //validate Rzp signature
-        try
-        {  
-            $attributes = [
-                'razorpay_order_id' => $request->get('razorpay_order_id'),
-                'razorpay_payment_id' => $request->get('razorpay_payment_id'),
-                'razorpay_signature' => $request->get('razorpay_signature')
-            ];
-        
-            $api->utility->verifyPaymentSignature($attributes);
-
-            // Process payment and update order status
-            $orderObject = $api->order->fetch($order->getData('razorpay_order_id'));
-            $paymentObject = $orderObject->payments();
-
-            $status = end($paymentObject['items'])->status;
-         
-            $message = '';
-            $remoteStatus = '';
-
-            $requestTime = $this->time->getRequestTime();
-
-            if ($status == "captured")
-            {
-                // Status is success.
-                $remoteStatus = t('Completed');
-
-                $message = $this->t('Your payment was successful with Order id : @orderid has been received at : @date', ['@orderid' => $order->id(), '@date' => date("d-m-Y H:i:s", $requestTime)]);
-            
-                $status = "completed";
-            }
-            elseif ($status == "authorized")
-            {
-                // Batch process - Pending orders.
-                $remoteStatus = t('Pending');
-                $message = $this->t('Your payment with Order id : @orderid is pending at : @date', ['@orderid' => $order->id(), '@date' => date("d-m-Y H:i:s", $requestTime)]);
-                $status = "authorization";
-            }
-            elseif ($status == "failed")
-            {
-                // Failed transaction
-                $message = $this->t('Your payment with Order id : @orderid failed at : @date', ['@orderid' => $order->id(), '@date' => date("d-m-Y H:i:s", $requestTime)]);
-               
-                \Drupal::logger('RazorpayOnReturn')->error($message);
-                
-                throw new PaymentGatewayException();
-            }
-      
-            $paymentStorage = $this->entityTypeManager->getStorage('commerce_payment');
-
-            $payment = $paymentStorage->create([
-                'state' => $status,
-                'amount' => $order->getTotalPrice(),
-                'payment_gateway' => $this->entityId,
-                'order_id' => $order->id(),
-                'test' => $this->getMode() == 'test',
-                'remote_id' => end($paymentObject['items'])->id,
-                'remote_state' => $remoteStatus ? $remoteStatus : $request->get('payment_status'),
-                'authorized' => $requestTime,
-                ]
-            );
-      
-            $payment->save();
-
-            \Drupal::messenger()->addMessage($message);
-
-        }
-        catch (SignatureVerificationError $exception)
-        {
-            $message = "Your payment to Razorpay failed " . $exception->getMessage();
-            \Drupal::logger('RazorpayOnReturn')->error($exception->getMessage());
-            throw new PaymentGatewayException($message);
-
-        }
-        catch (\Throwable $exception)
-        {
-            \Drupal::logger('RazorpayOnReturn')->error($exception->getMessage());
-            throw new PaymentGatewayException($exception->getMessage());
-        }
+    // If you have card details like last4, exp_month/year, store them safely (only last4).
+    if (!empty($payment_details['last4'])) {
+      $payment_method->card_number = $payment_details['last4'];
+    }
+    if (!empty($payment_details['exp_month'])) {
+      $payment_method->card_exp_month = $payment_details['exp_month'];
+    }
+    if (!empty($payment_details['exp_year'])) {
+      $payment_method->card_exp_year = $payment_details['exp_year'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function capturePayment(PaymentInterface $payment, Price $amount = NULL)
-    {
-        $this->assertPaymentState($payment, ['authorization']);
-
-        // If not specified, capture the entire amount.
-        $amount = $amount ?: $payment->getAmount();
-
-        try
-        {
-            $api = $this->getRazorpayApiInstance();
-
-            $razorpayPaymentId = $payment->getRemoteId();
-            $razorpayPayment = $api->payment->fetch($razorpayPaymentId);
-
-            $captureParams = [
-                'amount' => Calculator::trim($amount) * 100,
-                'currency' => $amount->getCurrencyCode()
-            ];
-            $razorpayPayment->capture($captureParams);
-        }
-        catch (\Exception $exception)
-        {
-            \Drupal::logger('RazorpayCapturePayment')->error($exception->getMessage());
-            throw new PaymentGatewayException($exception->getMessage());
-        }
-
-        $payment->setState('completed');
-        $payment->setAmount($amount);
-        $payment->save();
+    // Optionally create a Razorpay customer for the owner and attach the method.
+    $owner = $payment_method->getOwner();
+    if ($owner && !$owner->isAnonymous()) {
+      // Implement getRemoteCustomerId($owner) and setRemoteCustomerId($owner, $id)
+      // if you want to link a Razorpay customer id with the Drupal user.
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function voidPayment(PaymentInterface $payment)
-    {
-        throw new PaymentGatewayException('void payments are not supported. please click cancel');
+    // Persist the payment method locally.
+    $payment_method->save();
+  }
+
+  /**
+   * Convert a decimal amount string to minor units (smallest currency unit).
+   *
+   * @param string $number
+   *   Decimal string like "100.00".
+   * @param string $currency
+   *   Currency code like "INR".
+   *
+   * @return int
+   *   Amount in minor units (e.g., paise).
+   */
+  protected function amountToMinorUnits($number, $currency) {
+    // Most currencies have 2 decimal places. Add special handling if needed.
+    $decimal_places = 2;
+    // Remove any formatting, ensure string.
+    $normalized = (string) $number;
+    // Multiply and round to integer.
+    return (int) round((float) $normalized * (10 ** $decimal_places));
+  }
+
+  public function deletePaymentMethod(PaymentMethodInterface $payment_method) {
+  // If you stored a remote ID (e.g. a Razorpay token or customer card id) on
+  // the payment method, attempt to delete it from Razorpay.
+  $remote_id = $payment_method->getRemoteId();
+  if (!empty($remote_id)) {
+    try {
+      $api = $this->getApiClient();
+
+      // Example 1: If remote_id is a Razorpay customer id and you store a card id
+      // in a field like $payment_method->card_remote_id, then fetch and remove:
+      // $customer = $api->customer->fetch($remote_id);
+      // $customer->cards->delete($card_id); // adjust to your actual API shape
+
+      // Example 2: If remote_id is a "payment method token" that can be deleted:
+      // (Razorpay's API may not support direct deletion of tokens in all flows;
+      // adapt based on how you saved remote_id.)
+      // $api->someResource->delete($remote_id);
+
+      // NOTE: Razorpay often requires deleting a card via customer API or simply
+      // removing the saved source; change the above to match your token type.
+
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function refundPayment(PaymentInterface $payment, Price $amount = NULL)
-    {
-        $this->assertPaymentState($payment, ['completed', 'partially_refunded']);
-
-        // If not specified, refund the entire amount.
-        $amount = $amount ?: $payment->getAmount();
-        $this->assertRefundAmount($payment, $amount);
-
-        try
-        {
-            $api = $this->getRazorpayApiInstance();
-
-            $razorpayPaymentId = $payment->getRemoteId();
-            $razorpayPayment = $api->payment->fetch($razorpayPaymentId);
-            $razorpayPayment->refund(array('amount' => Calculator::trim($amount) * 100));
-        }
-        catch (\Exception $exception)
-        {
-            \Drupal::logger('RazorpayRefund')->error($exception->getMessage());
-            throw new PaymentGatewayException($exception->getMessage());
-        }
-
-        $oldRefundedAmount = $payment->getRefundedAmount();
-        $newRefundedAmount = $oldRefundedAmount->add($amount);
-
-        if ($newRefundedAmount->lessThan($payment->getAmount()))
-        {
-            $payment->setState('partially_refunded');
-        }
-        else
-        {
-            $payment->setState('refunded');
-        }
-
-        $payment->setRefundedAmount($newRefundedAmount);
-        $payment->save();
+    catch (RazorpayError $e) {
+      // If remote deletion fails, you can either log the error or throw a
+      // Commerce exception. Logging is safer to avoid blocking deletion locally.
+      \Drupal::logger('drupal_commerce_razorpay')->error('Razorpay delete error: @msg', ['@msg' => $e->getMessage()]);
     }
+  }
 
-    protected function getRazorpayApiInstance($key = null, $secret = null)
-    {
-        if ($key === null or
-            $secret === null)
-        {
-            $key = $this->configuration['key_id'];
-            $secret = $this->configuration['key_secret'];
-        }
+  // Finally, delete the local payment method entity.
+  $payment_method->delete();
+}
 
-        return new Api($key, $secret);
-    }
-
-    /**
-    * {@inheritdoc}
-    */
-    public function onCancel(OrderInterface $order, Request $request)
-    {
-        $this->messenger()->addMessage($this->t('You have canceled checkout at @gateway but may resume the checkout process here when you are ready.', [
-            '@gateway' => $this->getDisplayLabel(),
-          ])
-        );
-    }
-
-    /**
-    * {@inheritdoc}
-    */
-    public function onNotify(Request $request)
-    {
-        $supportedWebhookEvents = [
-            'payment.authorized',
-            'refund.created',
-            'payment.failed'
-        ];
-
-        $data = json_decode($request->getContent(), true);
-
-        // Ignore unsupported events.
-        if (isset($data['event']) === false or
-            in_array($data['event'], $supportedWebhookEvents) === false) {
-            return;
-        }
-
-        $orderId = $data['payload']['payment']['entity']['notes']['drupal_order_id'];
-
-        $order = \Drupal::entityTypeManager()->getStorage('commerce_order')->load($orderId);
-
-        $rzpWebhookNotifiedAt = $order->getData('rzp_webhook_notified_at');
-
-        if (empty($rzpWebhookNotifiedAt) === true)
-        {
-            $order->setData('rzp_webhook_notified_at', time())->save();
-            return new Response('Webhook conflicts due to early execution.', static::HTTP_CONFLICT_STATUS);
-        }
-        elseif ((time() - $rzpWebhookNotifiedAt) < static::WEBHOOK_NOTIFY_WAIT_TIME)
-        {
-            return new Response('Webhook conflicts due to early execution.', static::HTTP_CONFLICT_STATUS);
-        }
-
-        $api = $this->getRazorpayApiInstance();
-     
-        // Verify the webhook signature
-        $signature = $request->headers->get('X-Razorpay-Signature');
-
-        $config = \Drupal::config('drupal_commerce_razorpay.settings');
-        $webhook_secret = $config->get('razorpay_flags.webhook_secret');
-
-        try
-        {
-            $api->utility->verifyWebhookSignature($request->getContent(), $signature, $webhook_secret);
-        }
-        catch (\Exception $exception)
-        {
-            // Handle signature verification error
-            \Drupal::logger('RazorpayWebhook')->error($exception->getMessage());
-            return new Response($exception->getMessage(), 401);
-        }
-     
-        // Handle the webhook event based on the event type
-        $event = $data['event'];
-        
-        $orderId = $data['payload']['payment']['entity']['notes']['drupal_order_id'];
-
-        $paymentId = $data['payload']['payment']['entity']['id'];
-
-        switch ($event)
-        {
-            case self::PAYMENT_AUTHORIZED:
-
-                $orderStatus = $order->getState()->getId();
-
-                if ($orderStatus !== 'draft')
-                {
-                    return new Response('order is in ' . $orderStatus . 'state', 200);
-                }
-
-                $paymentStorage = \Drupal::entityTypeManager()->getStorage('commerce_payment');
-                $razorpayPaymentId = $data['payload']['payment']['entity']['id'];
-
-                $razorpayPayment = $api->payment->fetch($razorpayPaymentId);
-
-                if ($razorpayPayment['status'] === 'captured')
-                {
-                    $state = 'completed';
-                }
-                else if ($razorpayPayment['status'] === 'authorized')
-                {
-                    $state = 'authorization';
-                }
-
-                $amount = Price::fromArray([
-                    'number' => ($data['payload']['payment']['entity']['amount'])/100,
-                    'currency_code' => $data['payload']['payment']['entity']['currency'],
-                ]);
-
-                $payment = $paymentStorage->create([
-                    'state' => $state,
-                    'amount' => $amount,
-                    'payment_gateway' => $this->entityId,
-                    'order_id' => $orderId,
-                    'remote_id' => $data['payload']['payment']['entity']['id'],
-                    'remote_state' => $data['payload']['payment']['entity']['status'],
-                    'authorized' => $this->time->getRequestTime(),
-                ]);
-                $payment->save();
-
-                break;
-
-            case self::PAYMENT_FAILED:
-                // Update the order status to "failed"
-
-                $order_storage = \Drupal::entityTypeManager()->getStorage('commerce_order');
-                $order = $order_storage->load($orderId);
-                if (!$order)
-                {
-                    \Drupal::logger('RazorpayWebhook')->info("Order not Found : ". $orderId);
-           
-                    return new Response('Order not found',  404);
-                }
-
-                \Drupal::logger('RazorpayWebhook')->info("Payment Failed for order ID: ". $orderId);
-                 
-                break;
-
-            case self::REFUNDED_CREATED:
-                // Update the payment and order statuses to "refunded"
-                               
-                $payment_storage = \Drupal::entityTypeManager()->getStorage('commerce_payment');
-                $payments = $payment_storage->loadByProperties(['remote_id' => $paymentId]);
-                if (count($payments) !== 1)
-                {
-                    \Drupal::logger('RazorpayWebhook')->info("Payment not Found : ". $paymentId);
-                    return new Response('Payment not found or multiple payments found', 404);
-                }
-                $totalamt= ($data['payload']['payment']['entity']['amount'])/100;
-
-                $amtRefund= ($data['payload']['payment']['entity']['amount_refunded'])/100;
-                
-                if($totalamt === $amtRefund)
-                {
-                    $state = 'refunded';
-                }
-                else
-                {
-                    $state = 'partially_refunded';
-                }
-                
-                $payment = reset($payments);
-                $payment->setState($state);
-                $refund_amount = new Price((string) $amtRefund, $payment->getAmount()->getCurrencyCode());
-                $payment->setRefundedAmount($refund_amount);
-                $payment->save();
-                
-                break;
-         }
-     
-         \Drupal::logger('RazorpayWebhook')->info("Webhook processed successfully for ". $event);
-                     
-         return new Response('Webhook processed successfully', 200);
-    }
 }

@@ -29,7 +29,8 @@
         "drupal/devel": "^5.4",
         "drupal/kart": "^1.0",
         "drupal/restui": "^1.22",
-        "drush/drush": "^13.6"
+        "drush/drush": "^13.6",
+        "razorpay/razorpay": "^2.9"
     },
     "conflict": {
         "drupal/drupal": "*"

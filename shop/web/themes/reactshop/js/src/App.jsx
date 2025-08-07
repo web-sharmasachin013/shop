@@ -6,7 +6,7 @@ import Home from "./components/pages/Home";
 import Cart from "./components/pages/Cart";
 import Single from "./components/pages/Single";
 import Login from "./components/nav/Login";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { setCartNumbers, viewCartItems } from "./features/cart/cartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProducts } from "./features/product/productSlice";
@@ -18,6 +18,7 @@ function App() {
   const cartItemsProducts = useSelector(selectEnrichedCartItems);
   const hasRun = useRef(false); // ✅ flag to prevent infinite loop
   const { cartItems } = useSelector((state) => state.cart);
+  const [count, setcount] = useState(true); // boolean: true or false
 
   useEffect(() => {
     dispatch(setCartNumbers());

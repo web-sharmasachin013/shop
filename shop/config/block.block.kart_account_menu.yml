@@ -1,0 +1,27 @@
+uuid: 2810f1ec-4c9c-446e-a2a2-2ddc3547a4ca
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.account
+  module:
+    - system
+  theme:
+    - kart
+_core:
+  default_config_hash: axU-D9vRz4jNYqbHxXFTgkU8KTDAQ5bO3FAvn06hqEA
+id: kart_account_menu
+theme: kart
+region: hidden_blocks
+weight: -13
+provider: null
+plugin: 'system_menu_block:account'
+settings:
+  id: 'system_menu_block:account'
+  label: 'User account menu'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 1
+  expand_all_items: false
+visibility: {  }

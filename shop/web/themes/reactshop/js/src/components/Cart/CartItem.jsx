@@ -2,14 +2,22 @@ import React from "react";
 import Price from "../extra/Price";
 import { useDispatch } from "react-redux";
 import { setQuantity } from "../../features/cart/cartSlice";
+import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
+import {
+  addToCartDrupalQtyIncrase,
+  removeFromCartDrupal,
+} from "../../features/cart/cartSlice";
 
 function CartItem(props) {
   const { item } = props;
-  console.log(item);
+  // console.log(item);
 
   const dispatch = useDispatch();
   const handleClick = (qty) => {
-    dispatch(setQuantity({ item, qty }));
+    const product = { product: item };
+
+    dispatch(addToCartDrupalQtyIncrase(product));
+    // dispatch(setQuantity({ item, qty }));
   };
   return (
     <li className="list-group-item">

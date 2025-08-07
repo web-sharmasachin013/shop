@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import data from "../../data";
+
 const initialState = {
   cartItems: [],
   prevItems: [],
@@ -32,6 +33,8 @@ export const addToCartDrupal = createAsyncThunk(
   "cart/addToCartDrupal",
   async ({ product }, { dispatch, rejectWithValue }) => {
     try {
+      console.log(product);
+
       let { id } = product;
 
       const csrfToken = await getCsrfToken();
@@ -56,6 +59,55 @@ export const addToCartDrupal = createAsyncThunk(
 
       dispatch(addToCart(product));
       return await res.json();
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+/// add to cart with button
+
+export const addToCartDrupalQtyIncrase = createAsyncThunk(
+  "cart/addToCartDrupalQtyIncrase",
+  async (product, { dispatch, rejectWithValue }) => {
+    try {
+      // console.log(product);
+
+      // let [{ id }] = product;
+      // let { quantity } = product;
+      //  console.log(product);
+      const {
+        product: { id, quantity },
+      } = product;
+
+      const item = product.product;
+      let qty = quantity;
+      console.log(quantity);
+
+      const csrfToken = await getCsrfToken();
+      // console.log(csrfToken);
+
+      const res = await fetch("/cart/add?_format=json", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify([
+          {
+            purchased_entity_type: "commerce_product_variation",
+            purchased_entity_id: id,
+            quantity: 1,
+          },
+        ]),
+      });
+      if (!res.ok) throw new Error("Failed to add to cart");
+      let result = await res.json();
+
+      dispatch(setQuantity({ item, qty }));
+      return result;
+      // return
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -91,8 +143,8 @@ export const removeFromCartDrupal = createAsyncThunk(
         throw new Error(txt || "Failed to remove item");
       }
       // Refresh cart from server
-      await dispatch(removeFromCart(updatedProduct));
-      console.log(orderItemUuid);
+      dispatch(removeFromCart(updatedProduct));
+      // / console.log(orderItemUuid);
 
       return { orderItemUuid };
     } catch (err) {
@@ -138,6 +190,9 @@ export const cartSlice = createSlice({
     },
     setQuantity: (state, action) => {
       let { item, qty } = action.payload;
+      console.log(item.id);
+      console.log(JSON.parse(JSON.stringify(state.cartItems)));
+
       state.cartItems = state.cartItems.map((cartItem) => {
         return cartItem.id === item.id
           ? { ...cartItem, quantity: cartItem.quantity + qty }
@@ -146,6 +201,7 @@ export const cartSlice = createSlice({
       state.cartItems = state.cartItems.filter(
         (cartItem) => cartItem.quantity >= 1
       );
+      console.log(JSON.parse(JSON.stringify(state.cartItems)));
     },
     setCartNumbers: (state) => {
       let subtotal = 0,
@@ -208,6 +264,17 @@ export const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(addToCartDrupal.rejected, (state, action) => {
+        state.addStatus = "failed";
+        state.error = action.payload;
+      })
+      .addCase(addToCartDrupalQtyIncrase.pending, (state) => {
+        state.addStatus = "loading";
+      })
+      .addCase(addToCartDrupalQtyIncrase.fulfilled, (state) => {
+        state.addStatus = "succeeded";
+        state.error = null;
+      })
+      .addCase(addToCartDrupalQtyIncrase.rejected, (state, action) => {
         state.addStatus = "failed";
         state.error = action.payload;
       })

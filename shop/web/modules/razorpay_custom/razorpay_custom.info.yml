@@ -1,0 +1,7 @@
+name: "Custom Razorpay Gateway"
+type: module
+description: "Custom Drupal Commerce payment gateway for Razorpay"
+package: "Commerce (Custom)"
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:commerce_payment

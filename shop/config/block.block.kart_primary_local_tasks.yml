@@ -1,0 +1,22 @@
+uuid: 56e8be66-144a-45c8-8a53-22217d6c200f
+langcode: en
+status: true
+dependencies:
+  theme:
+    - kart
+_core:
+  default_config_hash: v8eTSlYf9MlVC3YMD3jis6kP9d_enWDx5i76K09PvP0
+id: kart_primary_local_tasks
+theme: kart
+region: content
+weight: -14
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Primary tabs'
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: false
+visibility: {  }

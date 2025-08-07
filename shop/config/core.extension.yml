@@ -37,6 +37,7 @@ module:
   dblog: 0
   devel: 0
   devel_generate: 0
+  drupal_commerce_razorpay: 0
   dynamic_page_cache: 0
   editor: 0
   entity: 0
@@ -65,6 +66,7 @@ module:
   path_alias: 0
   physical: 0
   profile: 0
+  razorpay_custom: 0
   rest: 0
   restui: 0
   search: 0
@@ -85,4 +87,6 @@ theme:
   olivero: 0
   claro: 0
   reactshop: 0
+  stable9: 0
+  kart: 0
 profile: standard
