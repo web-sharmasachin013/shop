@@ -7,9 +7,9 @@ const selectAllProducts = (state) => state.products;
 export const selectEnrichedCartItems = createSelector(
   [selectCartItems, selectAllProducts],
   (cartItems, products) => {
-    return cartItems.prevItems.map((item) => {
+    return cartItems.cartItems.map((item) => {
       const product = products.products.find(
-        (p) => String(p.id) === String(item.product_id)
+        (p) => String(p.id) === String(item.id)
       );
 
       const quantity = parseFloat(item.quantity || 0);
@@ -18,7 +18,7 @@ export const selectEnrichedCartItems = createSelector(
 
       return {
         ...item,
-        product: product || null,
+        ...(product || null),
         subtotal,
       };
     });

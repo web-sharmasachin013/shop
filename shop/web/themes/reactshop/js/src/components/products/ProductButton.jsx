@@ -8,10 +8,13 @@ import {
 import { useNavigate } from "react-router-dom";
 
 function ProductButton(props) {
+  // /console.log(props.product.id);
+
   const dispatch = useDispatch();
   const nav = useNavigate();
   const user = useSelector((state) => state.auth.user);
   const { cartItems } = useSelector((state) => state.cart);
+  // console.log(cartItems);
   const handleAddClick = () => {
     const { product } = props;
     const userId = window?.drupalSettings?.user?.uid;
@@ -19,33 +22,37 @@ function ProductButton(props) {
       window.location.href = "/user/login"; // Drupal default login path
       return;
     }
+    console.log(cartItems, "AddToCart");
+
+    // console.log(product);
+    // console.log(cartItems);
 
     dispatch(addToCartDrupal({ product }));
   };
 
   const getIdsByProductId = (productId) => {
+    console.log(productId);
+
     const cartItem = cartItems.find((item) => item.id === productId);
     return cartItem ? cartItem : null;
   };
   const handleRemoveClick = () => {
     const { product } = props;
-    console.log(product);
+    // console.log(product);
+    console.log(cartItems, "RmoveToCart");
 
     const iDs = getIdsByProductId(props.product.id);
-    console.log(iDs);
+    //   console.log(iDs);
     const updatedProduct = {
       ...product,
       orderId: iDs.order_id,
       order_item_id: iDs.order_item_id,
     };
 
-    dispatch(
-      // /removeFromCartDrupal({ product }, iDs.order_id, iDs.order_item_id)
-      removeFromCartDrupal({ updatedProduct })
-    );
+    dispatch(removeFromCartDrupal({ updatedProduct }));
   };
   const isPresentInCart = Boolean(
-    cartItems.find((item) => item.id === props.product.id)
+    cartItems.find((item) => String(item.id) === props.product.id)
   );
   if (isPresentInCart) {
     return (

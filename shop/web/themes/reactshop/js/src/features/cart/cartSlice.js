@@ -33,12 +33,8 @@ export const addToCartDrupal = createAsyncThunk(
   "cart/addToCartDrupal",
   async ({ product }, { dispatch, rejectWithValue }) => {
     try {
-      console.log(product);
-
       let { id } = product;
-
       const csrfToken = await getCsrfToken();
-      // console.log(csrfToken);
 
       const res = await fetch("/cart/add?_format=json", {
         method: "POST",
@@ -56,9 +52,10 @@ export const addToCartDrupal = createAsyncThunk(
         ]),
       });
       if (!res.ok) throw new Error("Failed to add to cart");
-
-      dispatch(addToCart(product));
-      return await res.json();
+      let result = await res.json();
+      dispatch(fetchCart());
+      //dispatch(addToCart(product));
+      return result;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -82,7 +79,6 @@ export const addToCartDrupalQtyIncrase = createAsyncThunk(
 
       const item = product.product;
       let qty = quantity;
-      console.log(quantity);
 
       const csrfToken = await getCsrfToken();
       // console.log(csrfToken);
@@ -143,7 +139,8 @@ export const removeFromCartDrupal = createAsyncThunk(
         throw new Error(txt || "Failed to remove item");
       }
       // Refresh cart from server
-      dispatch(removeFromCart(updatedProduct));
+      // dispatch(removeFromCart(updatedProduct));
+      dispatch(fetchCart());
       // / console.log(orderItemUuid);
 
       return { orderItemUuid };
@@ -172,17 +169,13 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       let { payload: item } = action;
-      // console.log(item);
+      console.log(item, "AddToCart");
 
-      // console.log(JSON.parse(JSON.stringify(item))); // Clean output
       state.cartItems.push({ ...item, quantity: 1 });
-      //  console.log(JSON.parse(JSON.stringify(item))); // Clean output
+      console.log(JSON.parse(JSON.stringify(state.cartItems)));
     },
     removeFromCart: (state, action) => {
       let { payload: item } = action;
-      // console.log(item);
-      // console.log(JSON.parse(JSON.stringify(state.prevItems)));
-
       let index = state.cartItems.findIndex(
         (cartItem) => cartItem.id === item.id
       );
@@ -239,9 +232,14 @@ export const cartSlice = createSlice({
       })
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
+        // console.log("RR");
+        // console.log(action.payload[0]);
+        // console.log("cartItems");
+
+        // console.log(JSON.parse(JSON.stringify(state.cartItems)));
 
         const simplifiedCart = action.payload[0].order_items.map((item) => ({
-          product_id: item.purchased_entity?.product_id,
+          id: String(item.purchased_entity?.product_id),
           uuid: item.uuid,
           price: item.purchased_entity.price.number,
           quantity: item.quantity,
@@ -249,7 +247,16 @@ export const cartSlice = createSlice({
           order_item_id: item.order_item_id,
           order_id: item.order_id,
         }));
+
+        // console.log(simplifiedCart, "simplifiedCart");
+
+        state.cartItems = simplifiedCart;
+        // console.log(JSON.parse(JSON.stringify(state.cartItems)), "After");
+
         state.prevItems = simplifiedCart;
+        // console.log("Test");
+        // console.log(state.prevItems);
+
         //  console.log(state.prevItems);
       })
       .addCase(fetchCart.rejected, (state, action) => {

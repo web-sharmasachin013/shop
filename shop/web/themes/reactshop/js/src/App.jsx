@@ -19,6 +19,7 @@ function App() {
   const hasRun = useRef(false); // ✅ flag to prevent infinite loop
   const { cartItems } = useSelector((state) => state.cart);
   const [count, setcount] = useState(true); // boolean: true or false
+  console.log(cartItems);
 
   useEffect(() => {
     dispatch(setCartNumbers());
@@ -32,7 +33,7 @@ function App() {
   useEffect(() => {
     if (!hasRun.current && cartItemsProducts.length > 0) {
       hasRun.current = true; // set flag BEFORE calling the function
-      dispatch(viewCartItems(cartItemsProducts)); // ✅ safe to call state setters here
+      //dispatch(viewCartItems(cartItemsProducts)); // ✅ safe to call state setters here
     }
   }, [cartItemsProducts, cartItems]);
 

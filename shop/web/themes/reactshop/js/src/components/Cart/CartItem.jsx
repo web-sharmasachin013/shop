@@ -10,7 +10,8 @@ import {
 
 function CartItem(props) {
   const { item } = props;
-  // console.log(item);
+
+  console.log(item, "CartItem");
 
   const dispatch = useDispatch();
   const handleClick = (qty) => {
