@@ -1,7 +1,7 @@
 import React from "react";
 import Price from "../extra/Price";
 import { useDispatch } from "react-redux";
-import { setQuantity } from "../../features/cart/cartSlice";
+import { addToCartDrupal, setQuantity } from "../../features/cart/cartSlice";
 import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
 import {
   addToCartDrupalQtyIncrase,
@@ -15,10 +15,8 @@ function CartItem(props) {
 
   const dispatch = useDispatch();
   const handleClick = (qty) => {
-    const product = { product: item };
-
-    dispatch(addToCartDrupalQtyIncrase(product));
-    // dispatch(setQuantity({ item, qty }));
+    console.log(item, "++++");
+    dispatch(addToCartDrupalQtyIncrase(item));
   };
   return (
     <li className="list-group-item">

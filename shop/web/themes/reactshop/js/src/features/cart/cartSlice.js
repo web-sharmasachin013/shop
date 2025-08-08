@@ -33,7 +33,10 @@ export const addToCartDrupal = createAsyncThunk(
   "cart/addToCartDrupal",
   async ({ product }, { dispatch, rejectWithValue }) => {
     try {
+      console.log(product, "Button + INC");
+
       let { id } = product;
+
       const csrfToken = await getCsrfToken();
 
       const res = await fetch("/cart/add?_format=json", {
@@ -57,6 +60,8 @@ export const addToCartDrupal = createAsyncThunk(
       //dispatch(addToCart(product));
       return result;
     } catch (err) {
+      console.log(err.message);
+
       return rejectWithValue(err.message);
     }
   }
@@ -68,17 +73,7 @@ export const addToCartDrupalQtyIncrase = createAsyncThunk(
   "cart/addToCartDrupalQtyIncrase",
   async (product, { dispatch, rejectWithValue }) => {
     try {
-      // console.log(product);
-
-      // let [{ id }] = product;
-      // let { quantity } = product;
-      //  console.log(product);
-      const {
-        product: { id, quantity },
-      } = product;
-
-      const item = product.product;
-      let qty = quantity;
+      const { id, quantity } = product;
 
       const csrfToken = await getCsrfToken();
       // console.log(csrfToken);
@@ -100,11 +95,11 @@ export const addToCartDrupalQtyIncrase = createAsyncThunk(
       });
       if (!res.ok) throw new Error("Failed to add to cart");
       let result = await res.json();
-
-      dispatch(setQuantity({ item, qty }));
+      dispatch(fetchCart());
       return result;
-      // return
     } catch (err) {
+      console.log(err.message);
+
       return rejectWithValue(err.message);
     }
   }
