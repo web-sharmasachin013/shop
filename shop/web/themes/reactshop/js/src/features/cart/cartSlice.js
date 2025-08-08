@@ -145,6 +145,43 @@ export const removeFromCartDrupal = createAsyncThunk(
   }
 );
 
+export const removeFromCartDrupalByOne = createAsyncThunk(
+  "cart/removeFromCartDrupalByOne",
+  async (product, { dispatch, rejectWithValue }) => {
+    console.log(product, "BY --");
+    try {
+      const { id, quantity } = product;
+
+      const csrfToken = await getCsrfToken();
+      // console.log(csrfToken);
+
+      const res = await fetch("/cart/add?_format=json", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-Token": csrfToken,
+        },
+        body: JSON.stringify([
+          {
+            purchased_entity_type: "commerce_product_variation",
+            purchased_entity_id: id,
+            quantity: -1,
+          },
+        ]),
+      });
+      if (!res.ok) throw new Error("Failed to add to cart");
+      let result = await res.json();
+      dispatch(fetchCart());
+      return result;
+    } catch (err) {
+      console.log(err.message);
+
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
 // src/utils/getCsrfToken.js
 export async function getCsrfToken() {
   const res = await fetch("/session/token", {
@@ -288,6 +325,17 @@ export const cartSlice = createSlice({
       })
       .addCase(removeFromCartDrupal.rejected, (state, action) => {
         state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(removeFromCartDrupalByOne.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(removeFromCartDrupalByOne.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(removeFromCartDrupalByOne.fulfilled, (state, action) => {
+        state.status = "succeeded";
         state.error = action.payload;
       });
   },

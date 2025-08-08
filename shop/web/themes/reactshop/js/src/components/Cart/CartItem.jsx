@@ -6,6 +6,7 @@ import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
 import {
   addToCartDrupalQtyIncrase,
   removeFromCartDrupal,
+  removeFromCartDrupalByOne,
 } from "../../features/cart/cartSlice";
 
 function CartItem(props) {
@@ -16,7 +17,11 @@ function CartItem(props) {
   const dispatch = useDispatch();
   const handleClick = (qty) => {
     console.log(item, "++++");
-    dispatch(addToCartDrupalQtyIncrase(item));
+    if (qty > 0) {
+      dispatch(addToCartDrupalQtyIncrase(item));
+    } else {
+      dispatch(removeFromCartDrupalByOne(item));
+    }
   };
   return (
     <li className="list-group-item">
