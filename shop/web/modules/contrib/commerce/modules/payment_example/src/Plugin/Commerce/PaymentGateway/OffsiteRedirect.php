@@ -10,7 +10,7 @@ use Drupal\commerce_payment\Plugin\Commerce\PaymentGateway\OffsitePaymentGateway
 use Drupal\commerce_payment_example\PluginForm\OffsiteRedirect\PaymentOffsiteForm;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
+/** 
  * Provides the Off-site Redirect payment gateway.
  */
 #[CommercePaymentGateway(

@@ -124,7 +124,7 @@ final class CustomProductListApiResource extends ResourceBase
                 "id" => $product->id(),
                 "name" => $product->label(),
                 "price" => $this->getProductPrice($product),
-                "description" => $product->get("body")->value,
+                "description" =>  html_entity_decode($product->get('body')->value ?? ''),
                 "img" => $image_url,
                  'category' => $term->label(),
             ];

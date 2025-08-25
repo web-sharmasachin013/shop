@@ -1,0 +1,5 @@
+name: 'razorpay_integration'
+type: module
+description: 'razorpay_integration'
+package: Custom
+core_version_requirement: ^10 || ^11

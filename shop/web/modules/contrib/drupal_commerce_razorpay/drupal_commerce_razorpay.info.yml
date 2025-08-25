@@ -1,12 +1,8 @@
-name: Commerce Razorpay
+name: "Razorpay Payment Gateway"
 type: module
-description: Provides Commerce integration for the Razorpay Payments.
-core_version_requirement: ^10 || ^11
-package: Commerce (contrib)
+description: "Drupal Commerce payment gateway for Razorpay."
+core_version_requirement: "^10 || ^11"
+package: "Commerce (payment)"
 dependencies:
-  - commerce:commerce_payment
-
-# Information added by Drupal.org packaging script on 2023-05-05
-version: "1.0.0"
-project: "drupal_commerce_razorpay"
-datestamp: 1683307115
+  - drupal:commerce
+  - drupal:commerce_payment

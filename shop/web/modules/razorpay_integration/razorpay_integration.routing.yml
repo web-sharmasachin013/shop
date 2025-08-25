@@ -1,0 +1,7 @@
+razorpay_integration.notify:
+  path: "/razorpay/notify"
+  defaults:
+    _controller: '\Drupal\razorpay_integration\Controller\RazorpayController::notify'
+    _title: "Razorpay Notify"
+  requirements:
+    _permission: "access content"

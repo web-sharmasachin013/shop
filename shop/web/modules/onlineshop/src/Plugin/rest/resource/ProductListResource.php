@@ -105,7 +105,7 @@ final class ProductListResource extends ResourceBase {
         'name' => $product->label(),
         'price' => $defaultVariation ? $defaultVariation->getPrice()->getNumber() : NULL,
         'category' => $product->hasField('field_category') ? $product->get('field_category')->entity->label() : NULL,
-        'description' => $product->hasField('body') ? $product->get('body')->value : '',
+        'description' => $product->hasField('body') ? strip_tags($product->get('body')->value) : '',
       ];
     }
        return new ResourceResponse($response, 200);
